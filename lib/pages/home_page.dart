@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: _crearBottomNavigationBar(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF95A5A6),
         child: Icon(Icons.favorite),
         onPressed: (){},
       ),
