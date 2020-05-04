@@ -13,7 +13,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
+  IconData selectedItem = Icons.hotel;
+  List itemsList = [
+      {
+        "icon": Icons.hotel, 
+        "text": "Alojamientos"
+      },
+      {
+        "icon": Icons.restaurant,
+        "text": "Gastronomicos"
+      }
+  ];
+
   int currentIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,22 +50,44 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+
+  // Widget _crearActiveIcon(IconData icon) {
+
+  //   return ShaderMask(
+  //             shaderCallback: (Rect bounds) {
+  //               return RadialGradient(
+  //                 center: Alignment.topLeft,
+  //                 radius: 0.5,
+  //                 colors: <Color>[
+  //                   Colors.red, Colors.orange
+  //                 ],
+  //                 tileMode: TileMode.repeated,
+  //               ).createShader(bounds);
+  //             },
+  //             child: Icon(icon),
+  //   );
+  // }
+
   Widget _crearBottomNavigationBar() {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (index) {setState(() {
         currentIndex = index;
       });},
-      items: [
+      items: <BottomNavigationBarItem> [
         BottomNavigationBarItem(
           icon: Icon(Icons.hotel),
-          title: Text('Alojamientos')
+          title: Container(),
+           activeIcon: Icon(Icons.hotel, color: Color(0xFF4EAEFB))
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.restaurant),
-          title: Text('Gastronomicos')
-        )
+          title: Container(),
+          activeIcon: Icon(Icons.restaurant, color: Color(0xFFF0AD5F))
+          // activeIcon: _crearActiveIcon(Icons.restaurant)
+        ),
       ]
+      
     );
   }
 }
