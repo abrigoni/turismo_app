@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:turismoapp/widgets/list_container_widget.dart';
+import 'package:turismoapp/widgets/gastronomicos_list_container_widget%20copy.dart';
 import 'package:turismoapp/widgets/searchbar_widget.dart';
 
 class GastronomicosPage extends StatelessWidget {
@@ -22,7 +22,7 @@ class GastronomicosPage extends StatelessWidget {
             height: 20.0,
           ),
           Expanded(
-            child: ListContainerWidget(),
+            child: GastronomicoListContainerWidget()
           )
         ],
         )
