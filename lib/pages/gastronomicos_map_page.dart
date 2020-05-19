@@ -44,7 +44,7 @@ class _GastronomicosMapPageState extends State<GastronomicosMapPage> {
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
-          Navigator.pushNamed(context, HomePage.ROUTENAME);
+          Navigator.pop(context);
         }),
     );
   }

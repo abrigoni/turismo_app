@@ -1,4 +1,5 @@
 
+import 'package:app/pages/filtros_gastronomicos_page.dart';
 import 'package:app/pages/gastronomicos_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/gastronomico_card_widget.dart';
@@ -37,7 +38,9 @@ class GastronomicosPage extends StatelessWidget {
         backgroundColor: Color(0xFFF0AD5F), 
         title: Text("Gastronomicos"),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.filter_list), onPressed: (){}),
+          IconButton(icon: Icon(Icons.filter_list), onPressed: (){
+            Navigator.pushNamed(context, FiltrosGastronomicosPage.ROUTENAME);
+          }),
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.map), onPressed: (){

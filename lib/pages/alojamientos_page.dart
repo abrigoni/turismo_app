@@ -1,4 +1,5 @@
 
+import 'package:app/pages/filtros_alojamientos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/providers/alojamiento_provider.dart';
 import 'package:app/models/alojamiento_model.dart';
@@ -48,7 +49,7 @@ class AlojamientosPage extends StatelessWidget {
         title: Text("Alojamientos"),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.filter_list), onPressed: (){
-            
+            Navigator.pushNamed(context, FiltrosAlojamientosPage.ROUTENAME);
           }),
         ],
         centerTitle: true,
