@@ -1,4 +1,6 @@
 
+import 'package:app/providers/categoria_provider.dart';
+import 'package:app/providers/clasificacion_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/home_page.dart';
 import 'package:app/pages/alojamientos_map_page.dart';
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           HomePage.ROUTENAME:                 (BuildContext context) => HomePage(),
           AlojamientosMapPage.ROUTENAME:      (BuildContext context) => AlojamientosMapPage(),
-          FiltrosAlojamientosPage.ROUTENAME:  (BuildContext context) => FiltrosAlojamientosPage(),
+          FiltrosAlojamientosPage.ROUTENAME:  (BuildContext context) => FiltrosAlojamientosPage(clasificacionProvider: ClasificacionProvider(), categoriaProvider: CategoriaProvider()),
           AlojamientoDetailPage.ROUTENAME:    (BuildContext context) => AlojamientoDetailPage(),
           GastronomicosMapPage.ROUTENAME:     (BuildContext context) => GastronomicosMapPage(),
           FiltrosGastronomicosPage.ROUTENAME: (BuildContext context) => FiltrosGastronomicosPage(),
