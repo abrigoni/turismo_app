@@ -52,7 +52,6 @@ class AlojamientoCardWidget extends StatelessWidget {
   }
 
   Widget _renderizarEstrellas(int categoria) {
-    print(categoria);
     final estrellas = List();
     for (var i = 0; i < categoria; i++) {
       estrellas.add(Icon(Icons.star, color: Colors.yellow, size: 20.0));
