@@ -17,6 +17,11 @@ class CategoriaProvider {
     return clasificaciones.items;
   }
 
-  // TODO: CategoriaById
+  Future<Categoria> getcategoriaById(int id) async {
+    final resp = await http.get(restApi+_url+"?id=eq.$id");
+    final decodedData = json.decode(resp.body);
+    final Categoria categoria = new Categoria.fromJsonMap(decodedData[0]);
+    return categoria;
+  }
 
 }

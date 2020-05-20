@@ -16,7 +16,12 @@ class ClasificacionProvider {
     final clasificaciones = new Clasificaciones.fromJsonList(decodedData);
     return clasificaciones.items;
   }
-  // TODO: ClasificacionById
 
+  Future<Clasificacion> getClasificacionById(int id) async {
+    final resp = await http.get(restApi+_url+"?id=eq.$id");
+    final decodedData = json.decode(resp.body);
+    final Clasificacion clasificacion = new Clasificacion.fromJsonMap(decodedData[0]);
+    return clasificacion;
+  }
 
 }
