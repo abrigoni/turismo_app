@@ -6,30 +6,34 @@ import 'package:app/models/alojamiento_model.dart';
 class AlojamientoCardWidget extends StatelessWidget {
 
   final Alojamiento alojamiento;
+  final Function(BuildContext, Alojamiento) onTap;
 
-  AlojamientoCardWidget({this.alojamiento});
+  AlojamientoCardWidget({this.alojamiento, this.onTap});
 
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        width: 300,
-        child: Column(
-          children: <Widget>[
-            Row(
+    return GestureDetector(
+        onTap: () => onTap(context, alojamiento),
+        child: Center(
+          child: Container(
+            width: 300,
+            child: Column(
               children: <Widget>[
-                _crearImagen(alojamiento.foto),
-                SizedBox(width:10.0),
-                _crearInfo(alojamiento.nombre, alojamiento.domicilio, alojamiento.clasificacionId, alojamiento.categoriaId),
-                SizedBox(width:10.0),
-                _crearAcciones()
+                Row(
+                  children: <Widget>[
+                    _crearImagen(alojamiento.foto),
+                    SizedBox(width:10.0),
+                    _crearInfo(alojamiento.nombre, alojamiento.domicilio, alojamiento.clasificacionId, alojamiento.categoriaId),
+                    SizedBox(width:10.0),
+                    _crearAcciones()
+                  ],
+                ),
+                Divider()
               ],
-            ),
-            Divider()
-          ],
-        )
-      ),
+            )
+          ),
+        ),
     );
             
   }

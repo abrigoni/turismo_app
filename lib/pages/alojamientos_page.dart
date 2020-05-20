@@ -1,3 +1,4 @@
+import 'package:app/pages/alojamiento_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/providers/alojamiento_provider.dart';
 import 'package:app/models/alojamiento_model.dart';
@@ -53,7 +54,7 @@ class AlojamientosPage extends StatelessWidget {
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.map), onPressed: (){
-          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME );
+          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME);
         }),
     );
   }
@@ -92,12 +93,18 @@ class AlojamientosPage extends StatelessWidget {
         child: ListView.builder(
                 itemCount: alojamientos.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return AlojamientoCardWidget(alojamiento: alojamientos[index]);
+                  return AlojamientoCardWidget(alojamiento: alojamientos[index], onTap: _onCardTap);
             }
         ),
       ),
     );
   }
+
+  void _onCardTap(BuildContext context, Alojamiento alojamiento) {
+    Navigator.pushNamed(context, AlojamientoDetailPage.ROUTENAME, arguments: alojamiento);
+  }
+
+
 
 
 }

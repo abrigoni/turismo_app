@@ -19,7 +19,8 @@ class _AlojamientosMapPageState extends State<AlojamientosMapPage> {
   List<Alojamiento> alojamientos;
   final Map<String, Marker> _markers = {};
 
-  @override void initState() {
+  @override 
+  void initState() {
     super.initState();
     _obtenerAlojamientos();
   }

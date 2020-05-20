@@ -1,3 +1,4 @@
+import 'package:app/pages/alojamiento_detail_page.dart';
 import 'package:app/pages/filtros_alojamientos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/pages/home_page.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
           HomePage.ROUTENAME:                 (BuildContext context) => HomePage(),
           AlojamientosMapPage.ROUTENAME:      (BuildContext context) => AlojamientosMapPage(),
           FiltrosAlojamientosPage.ROUTENAME:  (BuildContext context) => FiltrosAlojamientosPage(),
+          AlojamientoDetailPage.ROUTENAME:    (BuildContext context) => AlojamientoDetailPage(),
           GastronomicosMapPage.ROUTENAME:     (BuildContext context) => GastronomicosMapPage(),
           FiltrosGastronomicosPage.ROUTENAME: (BuildContext context) => FiltrosGastronomicosPage()
         }
