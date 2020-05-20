@@ -1,4 +1,3 @@
-import 'package:app/providers/alojamiento_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:app/models/alojamiento_model.dart';
