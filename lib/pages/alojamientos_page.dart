@@ -1,11 +1,10 @@
-
-import 'package:app/pages/filtros_alojamientos_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/providers/alojamiento_provider.dart';
 import 'package:app/models/alojamiento_model.dart';
 import 'package:app/pages/alojamientos_map_page.dart';
 import 'package:app/widgets/alojamiento_card_widget.dart';
 import 'package:app/widgets/searchbar_widget.dart';
+import 'package:app/pages/filtros_alojamientos_page.dart';
 
 class AlojamientosPage extends StatelessWidget {
 
@@ -54,7 +53,7 @@ class AlojamientosPage extends StatelessWidget {
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.map), onPressed: (){
-          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME);
+          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME );
         }),
     );
   }

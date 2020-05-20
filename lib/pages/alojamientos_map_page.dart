@@ -1,9 +1,10 @@
+import 'package:app/providers/alojamiento_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:app/models/alojamiento_model.dart';
 
 
 class AlojamientosMapPage extends StatefulWidget {
-  
   
   static const String ROUTENAME = 'AlojamientosMapPage';
 
@@ -15,10 +16,40 @@ class _AlojamientosMapPageState extends State<AlojamientosMapPage> {
   GoogleMapController mapController;
 
   final LatLng _center = const LatLng(-54.7999992,-68.3000031);
+  List<Alojamiento> alojamientos;
+  final Map<String, Marker> _markers = {};
+
+  @override void initState() {
+    super.initState();
+    _obtenerAlojamientos();
+  }
+
+  void _obtenerAlojamientos() async {
+    final resp = await AlojamientoProvider().getAlojamientos();
+    alojamientos = resp;
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+
+    setState(() {
+      _markers.clear();
+        for (final alojamiento in alojamientos) {
+          final marker = Marker(
+            markerId: MarkerId(alojamiento.id.toString()),
+            position: LatLng(alojamiento.lat, alojamiento.lng),
+            infoWindow: InfoWindow(
+              title: alojamiento.nombre,
+              snippet: alojamiento.domicilio,
+            ),
+          );
+          _markers[alojamiento.id.toString()] = marker;
+        }
+      }
+    );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +59,9 @@ class _AlojamientosMapPageState extends State<AlojamientosMapPage> {
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
             target: _center,
-            zoom: 11.0,
+            zoom: 15.0,
           ),
+          markers: _markers.values.toSet(),
       )
     );
   }
