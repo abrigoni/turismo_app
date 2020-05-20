@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:app/models/alojamiento_model.dart';
 import 'package:app/providers/urls.dart';
+import 'package:app/models/alojamiento_model.dart';
+
 
 
 class AlojamientoProvider{
