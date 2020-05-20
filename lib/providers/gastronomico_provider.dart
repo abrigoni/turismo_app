@@ -1,6 +1,6 @@
 class GastronomicoProvider{
 
-  String _url = '/gastronomicos';
+  //String _url = '/gastronomicos';
 
   GastronomicoProvider();
 
