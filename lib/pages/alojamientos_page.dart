@@ -7,7 +7,7 @@ import 'package:app/widgets/alojamiento_card_widget.dart';
 import 'package:app/widgets/searchbar_widget.dart';
 import 'package:app/pages/filtros_alojamientos_page.dart';
 
-class AlojamientosPage extends StatelessWidget {
+class AlojamientosPage extends StatefulWidget {
 
   static const String ROUTENAME = 'Alojamientos';
   final AlojamientoProvider alojamientosProvider;
@@ -16,6 +16,15 @@ class AlojamientosPage extends StatelessWidget {
   AlojamientosPage({
     @required this.alojamientosProvider,
   });
+
+  @override
+  _AlojamientosPageState createState() => _AlojamientosPageState();
+}
+
+class _AlojamientosPageState extends State<AlojamientosPage> {
+
+  List<Alojamiento> alojamientos;
+
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +62,8 @@ class AlojamientosPage extends StatelessWidget {
           }),
         ],
         centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.map), onPressed: (){
-          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME);
+        leading: IconButton(icon: Icon(Icons.map), onPressed: () async {
+          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME, arguments: alojamientos);
         }),
     );
   }
@@ -73,10 +82,13 @@ class AlojamientosPage extends StatelessWidget {
           ),
         ),
         FutureBuilder(
-          future: alojamientosProvider.getAlojamientos(),
+          future: widget.alojamientosProvider.getAlojamientos(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) 
+            if (snapshot.hasData) {
+              alojamientos = snapshot.data;
               return _alojamientosListView(snapshot.data);
+            }
+              
             return Container(child: Center(child: CircularProgressIndicator()));
           }
         ),
@@ -84,7 +96,6 @@ class AlojamientosPage extends StatelessWidget {
     );
     
   }
-
 
   Widget _alojamientosListView(List<Alojamiento> alojamientos) {
     return Center(
@@ -103,8 +114,4 @@ class AlojamientosPage extends StatelessWidget {
   void _onCardTap(BuildContext context, Alojamiento alojamiento) {
     Navigator.pushNamed(context, AlojamientoDetailPage.ROUTENAME, arguments: alojamiento);
   }
-
-
-
-
 }

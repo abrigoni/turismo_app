@@ -19,17 +19,6 @@ class _AlojamientosMapPageState extends State<AlojamientosMapPage> {
   List<Alojamiento> alojamientos;
   final Map<String, Marker> _markers = {};
 
-  @override 
-  void initState() {
-    super.initState();
-    _obtenerAlojamientos();
-  }
-
-  void _obtenerAlojamientos() async {
-    final resp = await AlojamientoProvider().getAlojamientos();
-    alojamientos = resp;
-  }
-
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
 
@@ -54,6 +43,7 @@ class _AlojamientosMapPageState extends State<AlojamientosMapPage> {
 
   @override
   Widget build(BuildContext context) {
+    alojamientos = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: _crearAppBar(context),
       body: GoogleMap(
