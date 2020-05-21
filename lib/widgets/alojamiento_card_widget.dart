@@ -24,7 +24,7 @@ class AlojamientoCardWidget extends StatelessWidget {
                   children: <Widget>[
                     _crearImagen(alojamiento.foto),
                     SizedBox(width:10.0),
-                    _crearInfo(alojamiento.nombre, alojamiento.domicilio, alojamiento.clasificacionId, alojamiento.categoriaId),
+                    _crearInfo(alojamiento.nombre, alojamiento.domicilio, alojamiento.categoriaId),
                     SizedBox(width:10.0),
                     _crearAcciones()
                   ],
@@ -61,14 +61,13 @@ class AlojamientoCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _crearInfo(String nombre, String domicilio, int clasificacion, int categoria) {
+  Widget _crearInfo(String nombre, String domicilio, int categoria) {
     return Container(
       width: 120.0,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(nombre, overflow: TextOverflow.clip),
-          Text(clasificacion.toString()),
           Text(domicilio),
           _renderizarEstrellas(categoria),
         ],
