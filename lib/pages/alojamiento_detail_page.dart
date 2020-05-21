@@ -1,12 +1,14 @@
-
-import 'package:app/models/categoria_model.dart';
-import 'package:app/models/localidad_model.dart';
-import 'package:app/providers/localidad_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:app/models/alojamiento_model.dart';
-import 'package:app/models/clasificacion_model.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:app/providers/clasificacion_provider.dart';
 import 'package:app/providers/categoria_provider.dart';
+import 'package:app/providers/localidad_provider.dart';
+import 'package:app/models/categoria_model.dart';
+import 'package:app/models/localidad_model.dart';
+import 'package:app/models/alojamiento_model.dart';
+import 'package:app/models/clasificacion_model.dart';
+import 'package:app/widgets/map_widget.dart';
+
 
 class AlojamientoDetailPage extends StatefulWidget {
   static const String ROUTENAME = 'Alojamiento-Detail';
@@ -56,9 +58,14 @@ class _AlojamientoDetailPageState extends State<AlojamientoDetailPage> {
                   SizedBox(height: 10.0,),
                   _crearDatos(context),
                   SizedBox(height: 10.0,),
-                  _crearMapa(),
+                  MapWidget(
+                      id: alojamiento.id.toString(),
+                      position: LatLng(alojamiento.lat, alojamiento.lng),
+                      titulo: alojamiento.nombre,
+                      domicilio: alojamiento.domicilio,
+                  ),
                   SizedBox(height: 10.0,),
-                  alojamiento.favorito ? _crearRecuerdos() : Container(),
+                  alojamiento.favorito ? _crearRecuerdos() : Container()
                 ],
               ),
             )
@@ -175,21 +182,12 @@ class _AlojamientoDetailPageState extends State<AlojamientoDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _crearTitulo(),
+          SizedBox(height:10.0),
           _crearClasificacion(),
+          SizedBox(height:10.0),
           _crearLocalidad(),
-          Text(alojamiento.domicilio, style: dataStyle),
+          SizedBox(height:10.0),
         ],
-      )
-    );
-  }
-
-  Widget _crearMapa() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: SizedBox(
-        height: 300,
-        width: 300,
-        child: Text("Mapa")
       )
     );
   }
