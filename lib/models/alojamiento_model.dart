@@ -23,6 +23,8 @@ class Alojamiento {
   int clasificacionId;
   int categoriaId;
   int localidadId;
+  bool favorito = false;
+  bool visible = true;
 
   Alojamiento({
     this.id,
