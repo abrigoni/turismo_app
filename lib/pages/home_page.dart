@@ -14,29 +14,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  final iconList = List<IconData>.unmodifiable([ 
-      Icons.hotel, 
-      Icons.favorite,
-      Icons.restaurant
+  final iconList = List.unmodifiable([ 
+      {"icon": Icons.hotel,       "title": "Alojamientos"}, 
+      {"icon": Icons.favorite,    "title": "Favoritos"}, 
+      {"icon": Icons.restaurant,  "title": "Gastronomicos"}, 
+  ]);
+
+  final pages = List<Widget>.unmodifiable([
+    AlojamientosPage(alojamientosProvider: AlojamientoProvider(),),
+    FavoritosPage(),
+    GastronomicosPage(),
   ]);
 
   int navIndex = 0;
-  final pages = List<Widget>.unmodifiable([
-    AlojamientosPage(alojamientosProvider: AlojamientoProvider(),),
-    GastronomicosPage(),
-  ]);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: pages[navIndex], 
       bottomNavigationBar: _crearBottomNavigationBar(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.favorite),
-        onPressed: (){Navigator.pushNamed(context, FavoritosPage.ROUTENAME);}
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
     );
   }
 
@@ -47,16 +43,7 @@ class _HomePageState extends State<HomePage> {
       onTap: (index) {setState(() {
         navIndex = index;
       });},
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.hotel),
-          title: Text('Alojamientos')
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.restaurant),
-          title: Text('Gastronomicos')
-        )
-      ]
+      items: [ for (var icon in iconList) BottomNavigationBarItem(icon: Icon(icon["icon"]), title: Text(icon["title"])) ]
     );
   }
 }
