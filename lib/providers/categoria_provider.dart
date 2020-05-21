@@ -1,25 +1,21 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:app/providers/urls.dart';
 import 'package:app/models/categoria_model.dart';
+import 'base_provider.dart';
 
 
-class CategoriaProvider {
+class CategoriaProvider extends BaseProvider {
 
   final String _url = "/categorias";
 
   CategoriaProvider();
 
   Future<List<Categoria>> getCategorias() async {
-    final resp = await http.get(restApi+_url);
-    final decodedData = json.decode(resp.body);
+    final decodedData = await super.httpGetRequest(_url);
     final clasificaciones = new Categorias.fromJsonList(decodedData);
     return clasificaciones.items;
   }
 
   Future<Categoria> getcategoriaById(int id) async {
-    final resp = await http.get(restApi+_url+"?id=eq.$id");
-    final decodedData = json.decode(resp.body);
+    final decodedData = await super.httpGetRequest(_url+"?id=eq.$id");
     final Categoria categoria = new Categoria.fromJsonMap(decodedData[0]);
     return categoria;
   }

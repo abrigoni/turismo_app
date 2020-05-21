@@ -1,25 +1,21 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:app/providers/urls.dart';
+import 'package:app/providers/base_provider.dart';
 import 'package:app/models/localidad_model.dart';
 
 
-class LocalidadProvider {
+class LocalidadProvider extends BaseProvider {
   
   final String _url = "/localidades";
 
   LocalidadProvider();
 
   Future<List<Localidad>> getLocalidades() async {
-    final resp = await http.get(restApi+_url);
-    final decodedData = json.decode(resp.body);
+    final decodedData = await super.httpGetRequest(_url);
     final localidades = new Localidades.fromJsonList(decodedData);
     return localidades.items;
   }
 
   Future<Localidad> getLocalidadById(int id) async {
-    final resp = await http.get(restApi+_url+"?id=eq.$id");
-    final decodedData = json.decode(resp.body);
+    final decodedData = await super.httpGetRequest(_url+"?id=eq.$id");
     final Localidad localidad = new Localidad.fromJsonMap(decodedData[0]);
     return localidad;
   }
