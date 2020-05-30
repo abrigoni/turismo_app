@@ -15,8 +15,12 @@ class _AlojamientosMapPageState extends State<AlojamientosMapPage> {
   GoogleMapController mapController;
 
   final LatLng _center = const LatLng(-54.7999992,-68.3000031);
+
+  
   List<Alojamiento> alojamientos;
   final Map<String, Marker> _markers = {};
+
+
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -46,12 +50,14 @@ class _AlojamientosMapPageState extends State<AlojamientosMapPage> {
     return Scaffold(
       appBar: _crearAppBar(context),
       body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 15.0,
-          ),
-          markers: _markers.values.toSet(),
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(
+          target: _center,
+          zoom: 15.0,
+        ),
+        markers: _markers.values.toSet(),
       )
     );
   }

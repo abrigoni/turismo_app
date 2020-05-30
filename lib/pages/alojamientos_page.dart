@@ -25,7 +25,6 @@ class _AlojamientosPageState extends State<AlojamientosPage> {
 
   List<Alojamiento> alojamientos;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,4 +113,9 @@ class _AlojamientosPageState extends State<AlojamientosPage> {
   void _onCardTap(BuildContext context, Alojamiento alojamiento) {
     Navigator.pushNamed(context, AlojamientoDetailPage.ROUTENAME, arguments: alojamiento);
   }
+
+  void _filtrar() {
+    print("Filtro");
+  }
+
 }
