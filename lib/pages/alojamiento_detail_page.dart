@@ -75,7 +75,7 @@ class _AlojamientoDetailPageState extends State<AlojamientoDetailPage> {
 
   Widget _crearContenedorImagen(BuildContext context) {
     return Container(
-      height: 360.0,
+      width: double.infinity,
       child: Stack(
         children: <Widget>[
           _crearImagen(),
