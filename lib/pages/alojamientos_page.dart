@@ -65,7 +65,7 @@ class _AlojamientosPageState extends State<AlojamientosPage> {
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.map), onPressed: () async {
-          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME, arguments: alojamientos);
+          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME);
         }),
     );
   }

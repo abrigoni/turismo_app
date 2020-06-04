@@ -16,7 +16,7 @@ class AlojamientosBloc implements Bloc {
     obtenerAlojamientos();
   }
 
-  final _alojamientosController = StreamController<List<Alojamiento>>.broadcast();
+  final _alojamientosController = new StreamController<List<Alojamiento>>.broadcast();
 
   Stream<List<Alojamiento>> get alojamientosStream => _alojamientosController.stream;
 
@@ -26,7 +26,7 @@ class AlojamientosBloc implements Bloc {
   }
 
   obtenerAlojamientos() async {
-    _alojamientosController.sink.add( await AlojamientoProvider().getAlojamientos());
+    _alojamientosController.sink.add( await AlojamientoProvider().getAlojamientos() );
   }
 
   filtrarAlojamientos() async {
