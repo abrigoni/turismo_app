@@ -1,4 +1,3 @@
-import 'package:app/pages/alojamiento_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app/providers/alojamiento_provider.dart';
 import 'package:app/models/alojamiento_model.dart';
@@ -6,6 +5,9 @@ import 'package:app/pages/alojamientos_map_page.dart';
 import 'package:app/widgets/alojamiento_card_widget.dart';
 import 'package:app/widgets/searchbar_widget.dart';
 import 'package:app/pages/filtros_alojamientos_page.dart';
+import 'package:app/BLoC/alojamientos_bloc.dart';
+import 'package:app/pages/alojamiento_detail_page.dart';
+
 
 class AlojamientosPage extends StatefulWidget {
 
@@ -24,6 +26,7 @@ class AlojamientosPage extends StatefulWidget {
 class _AlojamientosPageState extends State<AlojamientosPage> {
 
   List<Alojamiento> alojamientos;
+  final alojamientosBloc = new AlojamientosBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -80,14 +83,13 @@ class _AlojamientosPageState extends State<AlojamientosPage> {
             ]
           ),
         ),
-        FutureBuilder(
-          future: widget.alojamientosProvider.getAlojamientos(),
+        StreamBuilder(
+          stream: alojamientosBloc.alojamientosStream,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               alojamientos = snapshot.data;
               return _alojamientosListView(snapshot.data);
             }
-              
             return Container(child: Center(child: CircularProgressIndicator()));
           }
         ),
@@ -112,10 +114,6 @@ class _AlojamientosPageState extends State<AlojamientosPage> {
 
   void _onCardTap(BuildContext context, Alojamiento alojamiento) {
     Navigator.pushNamed(context, AlojamientoDetailPage.ROUTENAME, arguments: alojamiento);
-  }
-
-  void _filtrar() {
-    print("Filtro");
   }
 
 }
