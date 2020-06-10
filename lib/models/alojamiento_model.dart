@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class Alojamientos {
   List<Alojamiento> items = new List();
 
@@ -13,7 +15,7 @@ class Alojamientos {
 }
 
 
-class Alojamiento {
+class Alojamiento extends Equatable {
   int id;
   String nombre;
   String domicilio;
@@ -50,6 +52,7 @@ class Alojamiento {
     this.localidadId      = json["localidad_id"];
   }
 
-
+  @override
+  List<Object> get props => [id] ;
 
 }
