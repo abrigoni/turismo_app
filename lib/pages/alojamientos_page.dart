@@ -1,3 +1,4 @@
+import 'package:app/BLoC/alojamiento_state.dart';
 import 'package:flutter/material.dart';
 import 'package:app/providers/alojamiento_provider.dart';
 import 'package:app/models/alojamiento_model.dart';
@@ -5,52 +6,27 @@ import 'package:app/pages/alojamientos_map_page.dart';
 import 'package:app/widgets/alojamiento_card_widget.dart';
 import 'package:app/widgets/searchbar_widget.dart';
 import 'package:app/pages/filtros_alojamientos_page.dart';
-import 'package:app/BLoC/alojamientos_bloc.dart';
 import 'package:app/pages/alojamiento_detail_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app/BLoC/alojamiento_bloc.dart';
+import 'package:app/BLoC/alojamiento_event.dart';
 
 
-class AlojamientosPage extends StatefulWidget {
+
+class AlojamientosPage extends StatelessWidget {
 
   static const String ROUTENAME = 'Alojamientos';
-  final AlojamientoProvider alojamientosProvider;
 
-
-  AlojamientosPage({
-    @required this.alojamientosProvider,
-  });
-
-  @override
-  _AlojamientosPageState createState() => _AlojamientosPageState();
-}
-
-class _AlojamientosPageState extends State<AlojamientosPage> {
-
-  List<Alojamiento> alojamientos;
-  final alojamientosBloc = new AlojamientosBloc();
-
-  @override
+  @override 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _crearAppBar(context),
-      backgroundColor: Color(0xFF4EAEFB),
-      body: SafeArea( 
-        child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          SizedBox(
-            height: 20.0, 
-          ),
-          SearchBarWidget(),
-          SizedBox(
-            height: 20.0,
-          ),
-          Expanded(
-            child: _crearListContainer(),
-          )
-          
-        ],
-        )
-      )
+        backgroundColor: Color(0xFF4EAEFB),
+        appBar: _crearAppBar(context),
+        body: BlocProvider(
+          create: (context) =>
+              AlojamientoBloc(alojamientoProvider: AlojamientoProvider() )..add(FetchAlojamientos()),
+          child: AlojamientosUI(alojamientosProvider: AlojamientoProvider(),)
+      ),
     );
   }
 
@@ -69,8 +45,71 @@ class _AlojamientosPageState extends State<AlojamientosPage> {
         }),
     );
   }
+}
 
-  Widget _crearListContainer() {
+class AlojamientosUI extends StatefulWidget {
+
+  final AlojamientoProvider alojamientosProvider;
+
+
+  AlojamientosUI({
+    @required this.alojamientosProvider,
+  });
+
+  @override
+  _AlojamientosUIState createState() => _AlojamientosUIState();
+}
+
+class _AlojamientosUIState extends State<AlojamientosUI> {
+  
+  AlojamientoBloc _alojamientoBloc;
+  List<Alojamiento> alojamientos;
+
+  @override
+  void initState() {
+    super.initState();
+    _alojamientoBloc = BlocProvider.of<AlojamientoBloc>(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AlojamientoBloc, AlojamientoState>(
+      builder: (context, state) {
+        if (state is AlojamientoFailure) {
+          return Center(
+            child: Text('failed to fetch alojamientos'),
+          );
+        }
+        if (state is AlojamientoSuccess) {
+          if (state.alojamientos.isEmpty) {
+            return Center(
+              child: Text('no alojamientos'),
+            );
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              SizedBox(
+                height: 20.0, 
+              ),
+              SearchBarWidget(),
+              SizedBox(
+                height: 20.0,
+              ),
+              Expanded(
+                child: _crearListContainer(state.alojamientos),
+              )
+            ],
+          );
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+  }
+
+  Widget _crearListContainer(List<Alojamiento> alojamientos) {
     return Stack(
       children: <Widget>[
         Container(
@@ -83,16 +122,7 @@ class _AlojamientosPageState extends State<AlojamientosPage> {
             ]
           ),
         ),
-        StreamBuilder(
-          stream: alojamientosBloc.alojamientosStream,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              alojamientos = snapshot.data;
-              return _alojamientosListView(snapshot.data);
-            }
-            return Container(child: Center(child: CircularProgressIndicator()));
-          }
-        ),
+        _alojamientosListView(alojamientos)
       ],
     );
     

@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   ]);
 
   final pages = List<Widget>.unmodifiable([
-    AlojamientosPage(alojamientosProvider: AlojamientoProvider(),),
+    AlojamientosPage(),
     FavoritosPage(),
     GastronomicosPage(),
   ]);
