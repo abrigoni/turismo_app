@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/pages/alojamientos_page.dart';
 import 'package:app/pages/gastronomicos_page.dart';
-import 'package:app/providers/alojamiento_provider.dart';
 import 'package:app/pages/favoritos_page.dart';
 
 
