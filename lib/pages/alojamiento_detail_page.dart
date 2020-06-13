@@ -50,6 +50,14 @@ class _AlojamientoDetailPageState extends State<AlojamientoDetailPage> {
     futureLocalidad = widget.localidadProvider.getLocalidadById(alojamiento.localidadId);
 
     return Scaffold(
+        floatingActionButton: Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: FloatingActionButton(
+            onPressed: (){},
+            child: Icon(Icons.favorite),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         body: SafeArea(
           child: SingleChildScrollView(
               child: Column(
@@ -105,18 +113,6 @@ class _AlojamientoDetailPageState extends State<AlojamientoDetailPage> {
             onPressed: () => Navigator.pop(context),
             iconSize: 45,
           ),
-          Container(
-              margin: EdgeInsets.only(bottom: 15.0, right: 15.0),
-              child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                FloatingActionButton(
-                  onPressed: (){},
-                  child: Icon(Icons.favorite),
-                ),
-              ],
-            ),
-          )
         ],
       );
   }
