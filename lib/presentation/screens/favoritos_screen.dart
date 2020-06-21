@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class FavoritosPage extends StatelessWidget {
+class FavoritosScreen extends StatelessWidget {
 
   static const String ROUTENAME = "Favoritos";
 

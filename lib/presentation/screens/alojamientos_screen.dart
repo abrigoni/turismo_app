@@ -1,19 +1,18 @@
-import 'package:app/BLoC/alojamiento_state.dart';
 import 'package:flutter/material.dart';
-import 'package:app/providers/alojamiento_provider.dart';
-import 'package:app/models/alojamiento_model.dart';
-import 'package:app/pages/alojamientos_map_page.dart';
-import 'package:app/widgets/alojamiento_card_widget.dart';
-import 'package:app/widgets/searchbar_widget.dart';
-import 'package:app/pages/filtros_alojamientos_page.dart';
-import 'package:app/pages/alojamiento_detail_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:app/BLoC/alojamiento_bloc.dart';
-import 'package:app/BLoC/alojamiento_event.dart';
+import 'package:app/BLoC/bloc.dart';
+import 'package:app/data/models/alojamiento_model.dart';
+import 'package:app/data/providers/providers.dart';
+import 'package:app/presentation/screens/alojamiento_detail_screen.dart';
+import 'package:app/presentation/screens/alojamientos_map_screen.dart';
+import 'package:app/presentation/screens/filtros_alojamientos_screen.dart';
+import 'package:app/presentation/widgets/alojamiento_card_widget.dart';
+import 'package:app/presentation/widgets/searchbar_widget.dart';
 
 
 
-class AlojamientosPage extends StatelessWidget {
+
+class AlojamientosScreen extends StatelessWidget {
 
   static const String ROUTENAME = 'Alojamientos';
 
@@ -36,12 +35,12 @@ class AlojamientosPage extends StatelessWidget {
         title: Text("Alojamientos"),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.filter_list), onPressed: (){
-            Navigator.pushNamed(context, FiltrosAlojamientosPage.ROUTENAME);
+            Navigator.pushNamed(context, FiltrosAlojamientosScreen.ROUTENAME);
           }),
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.map), onPressed: () async {
-          Navigator.pushNamed(context, AlojamientosMapPage.ROUTENAME);
+          Navigator.pushNamed(context, AlojamientosMapScreen.ROUTENAME);
         }),
     );
   }
@@ -143,7 +142,7 @@ class _AlojamientosUIState extends State<AlojamientosUI> {
   }
 
   void _onCardTap(BuildContext context, Alojamiento alojamiento) {
-    Navigator.pushNamed(context, AlojamientoDetailPage.ROUTENAME, arguments: alojamiento);
+    Navigator.pushNamed(context, AlojamientoDetailScreen.ROUTENAME, arguments: alojamiento);
   }
 
 }

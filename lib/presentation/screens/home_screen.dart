@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:app/pages/alojamientos_page.dart';
-import 'package:app/pages/gastronomicos_page.dart';
-import 'package:app/pages/favoritos_page.dart';
+import 'package:app/presentation/screens/alojamientos_screen.dart';
+import 'package:app/presentation/screens/favoritos_screen.dart';
+import 'package:app/presentation/screens/gastronomicos_screen.dart';
 
 
-class HomePage extends StatefulWidget {
+
+class HomeScreen extends StatefulWidget {
 
   static const String ROUTENAME = "home";
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
 
   final iconList = List.unmodifiable([ 
       {"icon": Icons.hotel,       "title": "Alojamientos"}, 
@@ -19,10 +20,10 @@ class _HomePageState extends State<HomePage> {
       {"icon": Icons.restaurant,  "title": "Gastronomicos"}, 
   ]);
 
-  final pages = List<Widget>.unmodifiable([
-    AlojamientosPage(),
-    FavoritosPage(),
-    GastronomicosPage(),
+  final screens = List<Widget>.unmodifiable([
+    AlojamientosScreen(),
+    FavoritosScreen(),
+    GastronomicosScreen(),
   ]);
 
   int navIndex = 0;
@@ -30,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: pages[navIndex], 
+      body: screens[navIndex], 
       bottomNavigationBar: _crearBottomNavigationBar(),
     );
   }

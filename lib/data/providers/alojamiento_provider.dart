@@ -1,5 +1,5 @@
-import 'package:app/providers/base_provider.dart';
-import 'package:app/models/alojamiento_model.dart';
+import './base_provider.dart';
+import 'package:app/data/models/models.dart';
 
 
 

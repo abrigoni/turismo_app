@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:app/models/alojamiento_model.dart';
-import 'package:app/providers/alojamiento_provider.dart';
-import 'package:app/BLoC/alojamiento_bloc.dart';
-import 'package:app/BLoC/alojamiento_event.dart';
-import 'package:app/BLoC/alojamiento_state.dart';
-import 'package:app/pages/filtros_alojamientos_page.dart';
+import 'package:app/BLoC/bloc.dart';
+import 'package:app/data/providers/providers.dart';
+import 'package:app/data/models/models.dart';
+import 'package:app/presentation/screens/filtros_alojamientos_screen.dart';
 
 
-class AlojamientosMapPage extends StatelessWidget {
+class AlojamientosMapScreen extends StatelessWidget {
 
-  static const String ROUTENAME = 'AlojamientosMapPage';
+  static const String ROUTENAME = 'AlojamientosMapScreen';
 
   @override 
   Widget build(BuildContext context) {
@@ -32,7 +30,7 @@ class AlojamientosMapPage extends StatelessWidget {
         title: Text("Mapa - Alojamientos"),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.filter_list), onPressed: (){
-            Navigator.pushNamed(context, FiltrosAlojamientosPage.ROUTENAME);
+            Navigator.pushNamed(context, FiltrosAlojamientosScreen.ROUTENAME);
           }),
         ],
         centerTitle: true,
@@ -67,8 +65,9 @@ class _AlojamientosUIState extends State<AlojamientosUI> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AlojamientoBloc, AlojamientoState>(
-      builder: (context, state) {
+    return BlocListener<AlojamientoBloc, AlojamientoState>(
+      bloc: _alojamientoBloc,
+      listener: (context, state) {
         if (state is AlojamientoFailure) {
           return Center(
             child: Text('failed to fetch alojamientos'),
@@ -81,12 +80,12 @@ class _AlojamientosUIState extends State<AlojamientosUI> {
             );
           }
           alojamientos = state.alojamientos;
-          return _crearMapScreen(context);
         }
         return Center(
           child: CircularProgressIndicator(),
         );
       },
+      child: _crearMapScreen(context),
     );
   }
 

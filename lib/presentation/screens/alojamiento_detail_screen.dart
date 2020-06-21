@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:app/providers/clasificacion_provider.dart';
-import 'package:app/providers/categoria_provider.dart';
-import 'package:app/providers/localidad_provider.dart';
-import 'package:app/models/categoria_model.dart';
-import 'package:app/models/localidad_model.dart';
-import 'package:app/models/alojamiento_model.dart';
-import 'package:app/models/clasificacion_model.dart';
-import 'package:app/widgets/map_widget.dart';
+import 'package:app/data/providers/providers.dart';
+import 'package:app/data/models/models.dart';
+import 'package:app/presentation/widgets/map_widget.dart';
 
 
-class AlojamientoDetailPage extends StatefulWidget {
+class AlojamientoDetailScreen extends StatefulWidget {
   static const String ROUTENAME = 'Alojamiento-Detail';
   final ClasificacionProvider clasificacionProvider;
   final CategoriaProvider categoriaProvider;
   final LocalidadProvider localidadProvider;
 
-  AlojamientoDetailPage({
+  AlojamientoDetailScreen({
     @required this.clasificacionProvider,
     @required this.categoriaProvider,
     @required this.localidadProvider
   });
   
   @override
-  _AlojamientoDetailPageState createState() => _AlojamientoDetailPageState();
+  _AlojamientoDetailScreenState createState() => _AlojamientoDetailScreenState();
 }
 
-class _AlojamientoDetailPageState extends State<AlojamientoDetailPage> {
+class _AlojamientoDetailScreenState extends State<AlojamientoDetailScreen> {
   Alojamiento alojamiento;
   Future<Clasificacion> futureClasificacion;
   Future<Categoria> futureCategoria; 

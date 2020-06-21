@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 
-class FiltrosGastronomicosPage extends StatelessWidget {
+class FiltrosGastronomicosScreen extends StatelessWidget {
 
-  static const String ROUTENAME = 'FiltroGastronomicosPage';
+  static const String ROUTENAME = 'FiltroGastronomicosScreen';
 
   @override
   Widget build(BuildContext context) {

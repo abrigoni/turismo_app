@@ -1,4 +1,4 @@
-import 'package:app/models/alojamiento_model.dart';
+import 'package:app/data/models/alojamiento_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AlojamientoState extends Equatable {

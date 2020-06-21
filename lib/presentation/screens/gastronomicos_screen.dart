@@ -1,11 +1,11 @@
-
-import 'package:app/pages/filtros_gastronomicos_page.dart';
-import 'package:app/pages/gastronomicos_map_page.dart';
 import 'package:flutter/material.dart';
-import 'package:app/widgets/gastronomico_card_widget.dart';
-import 'package:app/widgets/searchbar_widget.dart';
+import 'package:app/presentation/screens/filtros_gastronomicos_screen.dart';
+import 'package:app/presentation/screens/gastronomicos_map_screen.dart';
+import 'package:app/presentation/widgets/gastronomico_card_widget.dart';
+import 'package:app/presentation/widgets/searchbar_widget.dart';
 
-class GastronomicosPage extends StatelessWidget {
+
+class GastronomicosScreen extends StatelessWidget {
   static const String ROUTENAME = 'Gastronomicos';
 
   @override
@@ -39,12 +39,12 @@ class GastronomicosPage extends StatelessWidget {
         title: Text("Gastronomicos"),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.filter_list), onPressed: (){
-            Navigator.pushNamed(context, FiltrosGastronomicosPage.ROUTENAME);
+            Navigator.pushNamed(context, FiltrosGastronomicosScreen.ROUTENAME);
           }),
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.map), onPressed: (){
-          Navigator.pushNamed(context, GastronomicosMapPage.ROUTENAME);
+          Navigator.pushNamed(context, GastronomicosMapScreen.ROUTENAME);
         }),
     );
   }
@@ -90,5 +90,5 @@ class GastronomicosPage extends StatelessWidget {
           ),
         );
   }
- 
+
 }

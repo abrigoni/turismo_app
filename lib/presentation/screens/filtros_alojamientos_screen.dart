@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:app/providers/categoria_provider.dart';
-import 'package:app/providers/clasificacion_provider.dart';
-import 'package:app/providers/localidad_provider.dart';
-import 'package:app/models/categoria_model.dart';
-import 'package:app/models/clasificacion_model.dart';
-import 'package:app/models/localidad_model.dart';
+import 'package:app/data/models/models.dart';
+import 'package:app/data/providers/providers.dart';
 
-class FiltrosAlojamientosPage extends StatefulWidget {
-  static const String ROUTENAME = 'FiltroAlojamientosPage';
+
+class FiltrosAlojamientosScreen extends StatefulWidget {
+  static const String ROUTENAME = 'FiltroAlojamientosScreen';
   final ClasificacionProvider clasificacionProvider;
   final CategoriaProvider categoriaProvider;
   final LocalidadProvider localidadProvider;
 
-  FiltrosAlojamientosPage({
+  FiltrosAlojamientosScreen({
     @required this.clasificacionProvider,
     @required this.categoriaProvider,
     @required this.localidadProvider,
   });
 
   @override
-  _FiltrosAlojamientosPageState createState() =>
-      _FiltrosAlojamientosPageState();
+  _FiltrosAlojamientosScreenState createState() =>
+      _FiltrosAlojamientosScreenState();
 }
 
-class _FiltrosAlojamientosPageState extends State<FiltrosAlojamientosPage> {
+class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
   List<Categoria> categorias = [];
   List<Clasificacion> clasificaciones = [];
   List<Localidad> localidades = [];

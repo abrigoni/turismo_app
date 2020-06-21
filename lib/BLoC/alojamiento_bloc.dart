@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:app/providers/alojamiento_provider.dart';
 import 'package:bloc/bloc.dart';
-import 'package:app/BLoC/alojamiento_event.dart';
-import 'package:app/BLoC/alojamiento_state.dart';
+import './alojamiento_event.dart';
+import './alojamiento_state.dart';
+import 'package:app/data/providers/alojamiento_provider.dart';
 
 
 

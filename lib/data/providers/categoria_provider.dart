@@ -1,5 +1,5 @@
-import 'package:app/models/categoria_model.dart';
-import 'base_provider.dart';
+import './base_provider.dart';
+import 'package:app/data/models/models.dart';
 
 
 class CategoriaProvider extends BaseProvider {

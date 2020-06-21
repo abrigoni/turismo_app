@@ -1,15 +1,13 @@
 
+import 'package:app/presentation/screens/alojamiento_detail_screen.dart';
+import 'package:app/presentation/screens/alojamientos_map_screen.dart';
+import 'package:app/presentation/screens/favoritos_screen.dart';
+import 'package:app/presentation/screens/filtros_alojamientos_screen.dart';
+import 'package:app/presentation/screens/filtros_gastronomicos_screen.dart';
+import 'package:app/presentation/screens/gastronomicos_map_screen.dart';
+import 'package:app/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:app/pages/home_page.dart';
-import 'package:app/pages/alojamientos_map_page.dart';
-import 'package:app/pages/filtros_gastronomicos_page.dart';
-import 'package:app/pages/gastronomicos_map_page.dart';
-import 'package:app/pages/alojamiento_detail_page.dart';
-import 'package:app/pages/favoritos_page.dart';
-import 'package:app/pages/filtros_alojamientos_page.dart';
-import 'package:app/providers/localidad_provider.dart';
-import 'package:app/providers/categoria_provider.dart';
-import 'package:app/providers/clasificacion_provider.dart';
+import 'package:app/data/providers/providers.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,22 +21,22 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        initialRoute: HomePage.ROUTENAME,
+        initialRoute: HomeScreen.ROUTENAME,
         routes: {
-          HomePage.ROUTENAME:                 (BuildContext context) => HomePage(),
-          AlojamientosMapPage.ROUTENAME:      (BuildContext context) => AlojamientosMapPage(),
-          FiltrosAlojamientosPage.ROUTENAME:  (BuildContext context) => FiltrosAlojamientosPage(
+          HomeScreen.ROUTENAME:                 (BuildContext context) => HomeScreen(),
+          AlojamientosMapScreen.ROUTENAME:      (BuildContext context) => AlojamientosMapScreen(),
+          FiltrosAlojamientosScreen.ROUTENAME:  (BuildContext context) => FiltrosAlojamientosScreen(
               clasificacionProvider: ClasificacionProvider(), 
               categoriaProvider: CategoriaProvider(),
               localidadProvider: LocalidadProvider()),
-          AlojamientoDetailPage.ROUTENAME:    (BuildContext context) => AlojamientoDetailPage(
+          AlojamientoDetailScreen.ROUTENAME:    (BuildContext context) => AlojamientoDetailScreen(
             clasificacionProvider: ClasificacionProvider(), 
             categoriaProvider: CategoriaProvider(),
             localidadProvider: LocalidadProvider()
             ),
-          GastronomicosMapPage.ROUTENAME:     (BuildContext context) => GastronomicosMapPage(),
-          FiltrosGastronomicosPage.ROUTENAME: (BuildContext context) => FiltrosGastronomicosPage(),
-          FavoritosPage.ROUTENAME:            (BuildContext context) => FavoritosPage(),
+          GastronomicosMapScreen.ROUTENAME:     (BuildContext context) => GastronomicosMapScreen(),
+          FiltrosGastronomicosScreen.ROUTENAME: (BuildContext context) => FiltrosGastronomicosScreen(),
+          FavoritosScreen.ROUTENAME:            (BuildContext context) => FavoritosScreen(),
         }
       );
   }

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
-class GastronomicosMapPage extends StatefulWidget {
+class GastronomicosMapScreen extends StatefulWidget {
   
   
-  static const String ROUTENAME = 'GastronomicosMapPage';
+  static const String ROUTENAME = 'GastronomicosMapScreen';
 
   @override
-  _GastronomicosMapPageState createState() => _GastronomicosMapPageState();
+  _GastronomicosMapScreenState createState() => _GastronomicosMapScreenState();
 }
 
-class _GastronomicosMapPageState extends State<GastronomicosMapPage> {
+class _GastronomicosMapScreenState extends State<GastronomicosMapScreen> {
   GoogleMapController mapController;
 
   final LatLng _center = const LatLng(-54.7999992,-68.3000031);

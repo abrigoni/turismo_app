@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:app/models/alojamiento_model.dart';
+import 'package:app/data/models/alojamiento_model.dart';
 
 
 
