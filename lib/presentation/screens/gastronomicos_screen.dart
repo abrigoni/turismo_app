@@ -1,6 +1,7 @@
-import 'package:app/config/graphql_config.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:app/config/graphql_config.dart';
+import 'package:app/presentation/screens/gastronomico_detail_screen.dart';
 import 'package:app/presentation/screens/filtros_gastronomicos_screen.dart';
 import 'package:app/presentation/screens/gastronomicos_map_screen.dart';
 import 'package:app/presentation/widgets/gastronomico_card_widget.dart';
@@ -19,8 +20,7 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
     query GetGastronomicos {
     turismo_gastronomicos {
         nombre,
-        foto,
-        domicilio, 
+        foto, 
         localidad {
             nombre
         }
@@ -93,11 +93,9 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
             if (result.hasException) {
                 return Text(result.exception.toString());
             }
-
             if (result.loading) {
               return Text('Loading');
             }
-
             return _gastronomicosListView(result.data["turismo_gastronomicos"]);
           },
         )
@@ -112,10 +110,14 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
             child: ListView.builder(
                 itemCount: gastronomicos.length,
                 itemBuilder: (BuildContext context, int index) {
-                    return GastronomicoCardWidget(gastronomico: gastronomicos[index]);
+                    return GastronomicoCardWidget(gastronomico: gastronomicos[index], onTap: _onCardTap);
                 },
             ),
           ),
         );
+  }
+
+  void _onCardTap(BuildContext context, dynamic gastronomico) {
+    Navigator.pushNamed(context, GastronomicoDetailScreen.ROUTENAME, arguments: gastronomico);
   }
 }
