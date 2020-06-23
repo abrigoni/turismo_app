@@ -3,7 +3,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 class GraphQLConfig {
   static final HttpLink httpLink = HttpLink(
-    uri: 'https://hasura.io/learn/graphql',
+    uri: 'http://localhost:8080/v1/graphql',
   );
 
 
