@@ -1,35 +1,58 @@
+import 'package:app/config/graphql_config.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:app/presentation/screens/filtros_gastronomicos_screen.dart';
 import 'package:app/presentation/screens/gastronomicos_map_screen.dart';
 import 'package:app/presentation/widgets/gastronomico_card_widget.dart';
 import 'package:app/presentation/widgets/searchbar_widget.dart';
 
 
-class GastronomicosScreen extends StatelessWidget {
+class GastronomicosScreen extends StatefulWidget {
   static const String ROUTENAME = 'Gastronomicos';
 
   @override
+  _GastronomicosScreenState createState() => _GastronomicosScreenState();
+}
+
+class _GastronomicosScreenState extends State<GastronomicosScreen> {
+  String query = """
+    query GetGastronomicos {
+    turismo_gastronomicos {
+        nombre,
+        foto,
+        domicilio, 
+        localidad {
+            nombre
+        }
+    }
+}
+  """;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _crearAppBar(context),
-      backgroundColor: Color(0xFFF0AD5F),
-      body: SafeArea( 
-        child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          SizedBox(
-            height: 20.0, 
-          ),
-          SearchBarWidget(),
-          SizedBox(
-            height: 20.0,
-          ),
-          Expanded(
-            child: _crearListContainer()
+    return GraphQLProvider(
+      client: GraphQLConfig.initializeClient(),
+      child: Scaffold(
+        appBar: _crearAppBar(context),
+        backgroundColor: Color(0xFFF0AD5F),
+        body: SafeArea( 
+          child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            SizedBox(
+              height: 20.0, 
+            ),
+            SearchBarWidget(),
+            SizedBox(
+              height: 20.0,
+            ),
+            Expanded(
+              child: _crearListContainer()
+            )
+          ],
           )
-        ],
         )
-      )
+      ),
     );
   }
 
@@ -49,7 +72,6 @@ class GastronomicosScreen extends StatelessWidget {
     );
   }
 
-
   Widget _crearListContainer() {
     return Stack(
       children: <Widget>[
@@ -63,19 +85,25 @@ class GastronomicosScreen extends StatelessWidget {
             ]
           ),
         ),
-        FutureBuilder(
-          future: null,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            // if (snapshot.hasData) 
-            //   return _gastronomicosListView(snapshot.data);
-            // return Container(child: Center(child: CircularProgressIndicator()));
-            return _gastronomicosListView([1, 2, 3, 4]);
+        Query(
+          options: QueryOptions(
+            documentNode: gql(query), 
+          ),
+          builder: (QueryResult result, { VoidCallback refetch, FetchMore fetchMore }) {
+            if (result.hasException) {
+                return Text(result.exception.toString());
+            }
+
+            if (result.loading) {
+              return Text('Loading');
+            }
+
+            return _gastronomicosListView(result.data["turismo_gastronomicos"]);
           },
-        ),
+        )
       ],
     );
   }
-
 
   Widget _gastronomicosListView(List gastronomicos) {
     return Center(
@@ -90,5 +118,4 @@ class GastronomicosScreen extends StatelessWidget {
           ),
         );
   }
-
 }
