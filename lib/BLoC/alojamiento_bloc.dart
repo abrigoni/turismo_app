@@ -1,16 +1,15 @@
 import 'dart:async';
+import 'package:app/data/repositories/alojamiento_repository.dart';
 import 'package:bloc/bloc.dart';
 import './alojamiento_event.dart';
 import './alojamiento_state.dart';
-import 'package:app/data/providers/alojamiento_provider.dart';
-
 
 
 class AlojamientoBloc extends Bloc<AlojamientoEvent, AlojamientoState> {
 
-  final AlojamientoProvider alojamientoProvider;
+  final AlojamientoRepository alojamientoRepository;
 
-  AlojamientoBloc({this.alojamientoProvider});
+  AlojamientoBloc({this.alojamientoRepository});
 
   @override
   get initialState => AlojamientoInitial();
@@ -21,7 +20,8 @@ class AlojamientoBloc extends Bloc<AlojamientoEvent, AlojamientoState> {
     if (event is FetchAlojamientos) {
       try {
         if (currentState is AlojamientoInitial) {
-          final alojamientos = await alojamientoProvider.getAlojamientos();
+          print("Alojamiento Initial");
+          final alojamientos = await alojamientoRepository.getAll();
           yield AlojamientoSuccess(alojamientos: alojamientos);
           return;
         }

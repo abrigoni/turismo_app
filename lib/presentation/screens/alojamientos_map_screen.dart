@@ -1,8 +1,8 @@
+import 'package:app/data/repositories/alojamiento_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:app/BLoC/bloc.dart';
-import 'package:app/data/providers/providers.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/presentation/screens/filtros_alojamientos_screen.dart';
 
@@ -18,7 +18,7 @@ class AlojamientosMapScreen extends StatelessWidget {
         appBar: _crearAppBar(context),
         body: BlocProvider(
           create: (context) =>
-              AlojamientoBloc(alojamientoProvider: AlojamientoProvider() )..add(FetchAlojamientos()),
+              AlojamientoBloc(alojamientoRepository: AlojamientoRepository() )..add(FetchAlojamientos()),
           child: AlojamientosUI()
       ),
     );

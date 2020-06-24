@@ -1,3 +1,4 @@
+import 'package:app/data/repositories/alojamiento_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/BLoC/bloc.dart';
@@ -23,8 +24,8 @@ class AlojamientosScreen extends StatelessWidget {
         appBar: _crearAppBar(context),
         body: BlocProvider(
           create: (context) =>
-              AlojamientoBloc(alojamientoProvider: AlojamientoProvider() )..add(FetchAlojamientos()),
-          child: AlojamientosUI(alojamientosProvider: AlojamientoProvider(),)
+              AlojamientoBloc(alojamientoRepository: AlojamientoRepository() )..add(FetchAlojamientos()),
+          child: AlojamientosUI(alojamientosRepository: AlojamientoRepository(),)
       ),
     );
   }
@@ -48,11 +49,11 @@ class AlojamientosScreen extends StatelessWidget {
 
 class AlojamientosUI extends StatefulWidget {
 
-  final AlojamientoProvider alojamientosProvider;
+  final AlojamientoRepository alojamientosRepository;
 
 
   AlojamientosUI({
-    @required this.alojamientosProvider,
+    @required this.alojamientosRepository,
   });
 
   @override
