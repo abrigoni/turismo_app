@@ -12,24 +12,26 @@ class GastronomicosMapScreen extends StatefulWidget {
 }
 
 class _GastronomicosMapScreenState extends State<GastronomicosMapScreen> {
+
+  List<dynamic> gastronomicos;
+
+  /* Map */
   GoogleMapController mapController;
-
   final LatLng _center = const LatLng(-54.7999992,-68.3000031);
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
+  final Map<String, Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
+    gastronomicos = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: _crearAppBar(context),
       body: GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
             target: _center,
-            zoom: 11.0,
+            zoom: 15.0,
           ),
+          markers: _markers.values.toSet(),
       )
     );
   }
@@ -45,6 +47,25 @@ class _GastronomicosMapScreenState extends State<GastronomicosMapScreen> {
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
           Navigator.pop(context);
         }),
+    );
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+    setState(() {
+        _markers.clear();
+        for (final gastronomico in gastronomicos) {
+          final marker = Marker(
+            markerId: MarkerId(gastronomico["id"].toString()),
+            position: LatLng(gastronomico["lat"], gastronomico["lng"]),
+            infoWindow: InfoWindow(
+              title: gastronomico["nombre"],
+              snippet: gastronomico["domicilio"],
+            ),
+          );
+          _markers[gastronomico["id"].toString()] = marker;
+        }
+      }
     );
   }
 }

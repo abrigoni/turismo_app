@@ -19,14 +19,20 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
   String query = """
     query GetGastronomicos {
     turismo_gastronomicos {
+        id,
         nombre,
         foto, 
+        lat,
+        lng,
+        domicilio,
         localidad {
             nombre
         }
     }
 }
   """;
+
+  List<dynamic> _gastronomicos; 
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +73,7 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.map), onPressed: (){
-          Navigator.pushNamed(context, GastronomicosMapScreen.ROUTENAME);
+          Navigator.pushNamed(context, GastronomicosMapScreen.ROUTENAME, arguments: _gastronomicos);
         }),
     );
   }
@@ -96,7 +102,8 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
             if (result.loading) {
               return Text('Loading');
             }
-            return _gastronomicosListView(result.data["turismo_gastronomicos"]);
+            _gastronomicos = result.data["turismo_gastronomicos"];
+            return _gastronomicosListView(_gastronomicos);
           },
         )
       ],
