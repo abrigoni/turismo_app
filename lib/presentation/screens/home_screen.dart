@@ -15,9 +15,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   final iconList = List.unmodifiable([ 
-      {"icon": Icons.hotel,       "title": "Alojamientos"}, 
-      {"icon": Icons.favorite,    "title": "Favoritos"}, 
-      {"icon": Icons.restaurant,  "title": "Gastronomicos"}, 
+      {"icon": Icons.hotel}, 
+      {"icon": Icons.favorite}, 
+      {"icon": Icons.restaurant}, 
   ]);
 
   final screens = List<Widget>.unmodifiable([
@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: (index) {setState(() {
         navIndex = index;
       });},
-      items: [ for (var icon in iconList) BottomNavigationBarItem(icon: Icon(icon["icon"]), title: Text(icon["title"])) ]
+      items: [ for (var icon in iconList) BottomNavigationBarItem(icon: Icon(icon["icon"]), title: Container()) ]
     );
   }
 }
