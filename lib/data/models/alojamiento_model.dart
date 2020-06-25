@@ -25,8 +25,6 @@ class Alojamiento extends Equatable {
   int clasificacionId;
   int categoriaId;
   int localidadId;
-  bool favorito = false;
-  bool visible = true;
 
   Alojamiento({
     this.id,
