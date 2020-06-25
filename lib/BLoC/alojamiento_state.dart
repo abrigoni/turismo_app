@@ -1,32 +1,26 @@
-import 'package:app/data/models/alojamiento_model.dart';
+import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
+import 'package:app/data/models/alojamiento_model.dart';
 
-abstract class AlojamientoState extends Equatable {
-  const AlojamientoState(); 
+abstract class AlojamientosState extends Equatable {
+  const AlojamientosState();
 
   @override 
   List<Object> get props => [];
 }
 
-class AlojamientoInitial extends AlojamientoState {}
+class AlojamientosLoadInProgress extends AlojamientosState {}
 
-class AlojamientoFailure extends AlojamientoState {}
+class AlojamientosLoadSuccess extends AlojamientosState {
+  final List<Alojamiento> alojamientos;
 
-class AlojamientoSuccess extends AlojamientoState {
+  const AlojamientosLoadSuccess({@required this.alojamientos}) : assert(alojamientos != null);
 
-  final List<Alojamiento> alojamientos; 
-
-  const AlojamientoSuccess({this.alojamientos}) : assert(alojamientos != null);
-
-  AlojamientoSuccess copyWith({
-    List<Alojamiento> alojamientos,
-  }) {
-    return AlojamientoSuccess(
-      alojamientos: alojamientos ?? this.alojamientos
-    );
-  }
-
-  @override
+  @override 
   List<Object> get props => [alojamientos];
 
+  @override 
+  String toString() => 'AlojamientosLoadSuccess { alojamientos: $alojamientos }';
 }
+
+class AlojamientosLoadFailure extends AlojamientosState {}

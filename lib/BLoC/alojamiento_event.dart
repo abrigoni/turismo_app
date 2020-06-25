@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
 
+abstract class AlojamientosEvent extends Equatable {
+  const AlojamientosEvent();
 
-abstract class AlojamientoEvent extends Equatable {
-  const AlojamientoEvent();
-  @override 
+  @override
   List<Object> get props => [];
 }
 
-class FetchAlojamientos extends AlojamientoEvent {
-}
+class AlojamientosLoaded extends AlojamientosEvent { }
 

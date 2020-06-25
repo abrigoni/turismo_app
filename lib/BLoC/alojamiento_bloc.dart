@@ -5,35 +5,29 @@ import './alojamiento_event.dart';
 import './alojamiento_state.dart';
 
 
-class AlojamientoBloc extends Bloc<AlojamientoEvent, AlojamientoState> {
+class AlojamientosBloc extends Bloc<AlojamientosEvent, AlojamientosState> {
 
   final AlojamientoRepository alojamientoRepository;
 
-  AlojamientoBloc({this.alojamientoRepository});
+  AlojamientosBloc({this.alojamientoRepository});
 
   @override
-  get initialState => AlojamientoInitial();
+  get initialState => AlojamientosLoadInProgress();
 
   @override
-  Stream<AlojamientoState> mapEventToState(AlojamientoEvent event) async* {
-    final currentState = state;
-    if (event is FetchAlojamientos) {
-      try {
-        if (currentState is AlojamientoInitial) {
-          print("Alojamiento Initial");
-          final alojamientos = await alojamientoRepository.getAll();
-          yield AlojamientoSuccess(alojamientos: alojamientos);
-          return;
-        }
-        // if (currentState is AlojamientoSuccess) {
-        //   final alojamientos = await _fetchAlojamientos(currentState.alojamientos.length, 20);
-        //   yield AlojamientoSuccess(
-        //     alojamientos: currentState.alojamientos + alojamientos,
-        //   );
-        // }
-      } catch (_) {
-        yield AlojamientoFailure();
-      }
+  Stream<AlojamientosState> mapEventToState(AlojamientosEvent event) async* {
+    if (event is AlojamientosLoaded) {
+      yield* _mapAlojamientosLoadedToState();
+    }
+  }
+
+
+  Stream<AlojamientosState> _mapAlojamientosLoadedToState() async* {
+    try {
+      final alojamientos = await this.alojamientoRepository.getAll();
+      yield AlojamientosLoadSuccess(alojamientos: alojamientos);
+    } catch (_) {
+      yield AlojamientosLoadFailure();
     }
   }
 

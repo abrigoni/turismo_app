@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/BLoC/bloc.dart';
 import 'package:app/data/models/alojamiento_model.dart';
-import 'package:app/data/providers/providers.dart';
 import 'package:app/presentation/screens/alojamiento_detail_screen.dart';
 import 'package:app/presentation/screens/alojamientos_map_screen.dart';
 import 'package:app/presentation/screens/filtros_alojamientos_screen.dart';
@@ -24,7 +23,7 @@ class AlojamientosScreen extends StatelessWidget {
         appBar: _crearAppBar(context),
         body: BlocProvider(
           create: (context) =>
-              AlojamientoBloc(alojamientoRepository: AlojamientoRepository() )..add(FetchAlojamientos()),
+              AlojamientosBloc(alojamientoRepository: AlojamientoRepository() )..add(AlojamientosLoaded()),
           child: AlojamientosUI(alojamientosRepository: AlojamientoRepository(),)
       ),
     );
@@ -62,25 +61,25 @@ class AlojamientosUI extends StatefulWidget {
 
 class _AlojamientosUIState extends State<AlojamientosUI> {
   
-  AlojamientoBloc _alojamientoBloc;
+  AlojamientosBloc _alojamientoBloc;
   List<Alojamiento> alojamientos;
 
   @override
   void initState() {
     super.initState();
-    _alojamientoBloc = BlocProvider.of<AlojamientoBloc>(context);
+    _alojamientoBloc = BlocProvider.of<AlojamientosBloc>(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AlojamientoBloc, AlojamientoState>(
+    return BlocBuilder<AlojamientosBloc, AlojamientosState>(
       builder: (context, state) {
-        if (state is AlojamientoFailure) {
+        if (state is AlojamientosLoadFailure) {
           return Center(
             child: Text('failed to fetch alojamientos'),
           );
         }
-        if (state is AlojamientoSuccess) {
+        if (state is AlojamientosLoadSuccess) {
           if (state.alojamientos.isEmpty) {
             return Center(
               child: Text('no alojamientos'),

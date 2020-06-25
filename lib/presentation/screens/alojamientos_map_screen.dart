@@ -18,7 +18,7 @@ class AlojamientosMapScreen extends StatelessWidget {
         appBar: _crearAppBar(context),
         body: BlocProvider(
           create: (context) =>
-              AlojamientoBloc(alojamientoRepository: AlojamientoRepository() )..add(FetchAlojamientos()),
+              AlojamientosBloc(alojamientoRepository: AlojamientoRepository() )..add(AlojamientosLoaded()),
           child: AlojamientosUI()
       ),
     );
@@ -55,25 +55,25 @@ class _AlojamientosUIState extends State<AlojamientosUI> {
   final LatLng _center = const LatLng(-54.7999992,-68.3000031);
   final Map<String, Marker> _markers = {};
   /* bloc */
-  AlojamientoBloc _alojamientoBloc;
+  AlojamientosBloc _alojamientoBloc;
   List<Alojamiento> alojamientos;
 
   @override
   void initState() {
     super.initState();
-    _alojamientoBloc = BlocProvider.of<AlojamientoBloc>(context);
+    _alojamientoBloc = BlocProvider.of<AlojamientosBloc>(context);
   }
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AlojamientoBloc, AlojamientoState>(
+    return BlocListener<AlojamientosBloc, AlojamientosState>(
       bloc: _alojamientoBloc,
       listener: (context, state) {
-        if (state is AlojamientoFailure) {
+        if (state is AlojamientosLoadFailure) {
           return Center(
             child: Text('failed to fetch alojamientos'),
           );
         }
-        if (state is AlojamientoSuccess) {
+        if (state is AlojamientosLoadSuccess) {
           if (state.alojamientos.isEmpty) {
             return Center(
               child: Text('no alojamientos'),
