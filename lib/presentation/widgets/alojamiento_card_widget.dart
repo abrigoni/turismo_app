@@ -78,8 +78,8 @@ class AlojamientoCardWidget extends StatelessWidget {
   Widget _crearAcciones() {
     return Row(
       children: <Widget>[
-        Icon(Icons.location_on, color: Colors.blue),
-        Icon(Icons.favorite, color: Colors.red)
+        Icon(Icons.location_on, color: Colors.blue, size: 30),
+        Icon(Icons.favorite, color: Colors.red, size: 30) 
       ],
     );
   }

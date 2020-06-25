@@ -68,7 +68,7 @@ class _AlojamientoDetailScreenState extends State<AlojamientoDetailScreen> {
                       domicilio: alojamiento.domicilio,
                   ),
                   SizedBox(height: 10.0,),
-                  alojamiento.favorito ? _crearRecuerdos() : Container()
+                  _crearRecuerdos()
                 ],
               ),
             )
