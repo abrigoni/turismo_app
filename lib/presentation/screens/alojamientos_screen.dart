@@ -9,9 +9,6 @@ import 'package:app/presentation/screens/filtros_alojamientos_screen.dart';
 import 'package:app/presentation/widgets/alojamiento_card_widget.dart';
 import 'package:app/presentation/widgets/searchbar_widget.dart';
 
-
-
-
 class AlojamientosScreen extends StatelessWidget {
 
   static const String ROUTENAME = 'Alojamientos';
@@ -21,11 +18,40 @@ class AlojamientosScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Color(0xFF4EAEFB),
         appBar: _crearAppBar(context),
-        body: BlocProvider(
-          create: (context) =>
-              AlojamientosBloc(alojamientoRepository: AlojamientoRepository() )..add(AlojamientosLoaded()),
-          child: AlojamientosUI(alojamientosRepository: AlojamientoRepository(),)
-      ),
+        body: BlocBuilder<AlojamientosBloc, AlojamientosState>(
+          builder: (context, state) {
+            if (state is AlojamientosLoadFailure) {
+              return Center(
+                child: Text('failed to fetch alojamientos'),
+              );
+            }
+            if (state is AlojamientosLoadSuccess) {
+              if (state.alojamientos.isEmpty) {
+                return Center(
+                  child: Text('no alojamientos'),
+                );
+              }
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20.0, 
+                  ),
+                  SearchBarWidget(),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Expanded(
+                    child: _crearListContainer(state.alojamientos),
+                  )
+                ],
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+      )
     );
   }
 
@@ -42,69 +68,6 @@ class AlojamientosScreen extends StatelessWidget {
         leading: IconButton(icon: Icon(Icons.map), onPressed: () async {
           Navigator.pushNamed(context, AlojamientosMapScreen.ROUTENAME);
         }),
-    );
-  }
-}
-
-class AlojamientosUI extends StatefulWidget {
-
-  final AlojamientoRepository alojamientosRepository;
-
-
-  AlojamientosUI({
-    @required this.alojamientosRepository,
-  });
-
-  @override
-  _AlojamientosUIState createState() => _AlojamientosUIState();
-}
-
-class _AlojamientosUIState extends State<AlojamientosUI> {
-  
-  AlojamientosBloc _alojamientoBloc;
-  List<Alojamiento> alojamientos;
-
-  @override
-  void initState() {
-    super.initState();
-    _alojamientoBloc = BlocProvider.of<AlojamientosBloc>(context);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AlojamientosBloc, AlojamientosState>(
-      builder: (context, state) {
-        if (state is AlojamientosLoadFailure) {
-          return Center(
-            child: Text('failed to fetch alojamientos'),
-          );
-        }
-        if (state is AlojamientosLoadSuccess) {
-          if (state.alojamientos.isEmpty) {
-            return Center(
-              child: Text('no alojamientos'),
-            );
-          }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              SizedBox(
-                height: 20.0, 
-              ),
-              SearchBarWidget(),
-              SizedBox(
-                height: 20.0,
-              ),
-              Expanded(
-                child: _crearListContainer(state.alojamientos),
-              )
-            ],
-          );
-        }
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      },
     );
   }
 
@@ -144,5 +107,4 @@ class _AlojamientosUIState extends State<AlojamientosUI> {
   void _onCardTap(BuildContext context, Alojamiento alojamiento) {
     Navigator.pushNamed(context, AlojamientoDetailScreen.ROUTENAME, arguments: alojamiento);
   }
-
 }
