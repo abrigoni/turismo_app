@@ -17,40 +17,17 @@ class AlojamientosScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: Color(0xFF4EAEFB),
         appBar: _crearAppBar(context),
-        body: BlocBuilder<AlojamientosBloc, AlojamientosState>(
-          builder: (context, state) {
-            if (state is AlojamientosLoadFailure) {
-              return Center(
-                child: Text('failed to fetch alojamientos'),
-              );
-            }
-            if (state is AlojamientosLoadSuccess) {
-              if (state.alojamientos.isEmpty) {
-                return Center(
-                  child: Text('no alojamientos'),
-                );
-              }
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  SizedBox(
-                    height: 20.0, 
-                  ),
-                  SearchBarWidget(),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Expanded(
-                    child: _crearListContainer(state.alojamientos),
-                  )
-                ],
-              );
-            }
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          },
-      )
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            SizedBox(height: 20.0 ),
+            SearchBarWidget(),
+            SizedBox(height: 20.0),
+            Expanded(
+              child: _crearListContainer(context),
+            )
+          ],
+        )
     );
   }
 
@@ -70,7 +47,7 @@ class AlojamientosScreen extends StatelessWidget {
     );
   }
 
-  Widget _crearListContainer(List<Alojamiento> alojamientos) {
+  Widget _crearListContainer(BuildContext context) {
     return Stack(
       children: <Widget>[
         Container(
@@ -83,7 +60,26 @@ class AlojamientosScreen extends StatelessWidget {
             ]
           ),
         ),
-        _alojamientosListView(alojamientos)
+        BlocBuilder<AlojamientosBloc, AlojamientosState>(
+          builder: (context, state) {
+            if (state is AlojamientosLoadFailure) {
+              return Center(
+                child: Text('Fallo al buscar alojamientos'),
+              );
+            }
+            if (state is AlojamientosLoadSuccess) {
+              if (state.alojamientos.isEmpty) {
+                return Center(
+                  child: Text('Alojamientos vacio'),
+                );
+              }
+              return _alojamientosListView(state.alojamientos);
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+      )
       ],
     );
   }
