@@ -51,16 +51,12 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
           appBar: _crearAppBar(context),
           backgroundColor: Color(0xFFF0AD5F),
           body: SafeArea(
-              child: Column(
+            child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              SizedBox(
-                height: 20.0,
-              ),
+              SizedBox(height: 20.0),
               SearchBarWidget(),
-              SizedBox(
-                height: 20.0,
-              ),
+              SizedBox(height: 20.0),
               Expanded(child: _crearListContainer())
             ],
           ))),
@@ -112,7 +108,9 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
               return Text(result.exception.toString());
             }
             if (result.loading) {
-              return Text('Loading');
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
             _gastronomicos = result.data["turismo_gastronomicos"];
             return _gastronomicosListView(_gastronomicos);
