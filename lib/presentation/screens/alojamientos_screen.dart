@@ -1,4 +1,3 @@
-import 'package:app/data/repositories/alojamiento_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/BLoC/bloc.dart';
@@ -87,7 +86,6 @@ class AlojamientosScreen extends StatelessWidget {
         _alojamientosListView(alojamientos)
       ],
     );
-    
   }
 
   Widget _alojamientosListView(List<Alojamiento> alojamientos) {
