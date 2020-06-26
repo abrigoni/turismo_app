@@ -1,8 +1,6 @@
 import 'package:app/BLoC/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:app/config/graphql_config.dart';
 import 'package:app/presentation/screens/gastronomico_detail_screen.dart';
 import 'package:app/presentation/screens/filtros_gastronomicos_screen.dart';
 import 'package:app/presentation/screens/gastronomicos_map_screen.dart';
