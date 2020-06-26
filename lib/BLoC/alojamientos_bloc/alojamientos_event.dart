@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'alojamientos_bloc.dart';
 
 abstract class AlojamientosEvent extends Equatable {
   const AlojamientosEvent();
@@ -7,5 +7,5 @@ abstract class AlojamientosEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AlojamientosLoaded extends AlojamientosEvent { }
+class AlojamientosFetch extends AlojamientosEvent { }
 

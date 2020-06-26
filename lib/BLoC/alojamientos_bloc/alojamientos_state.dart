@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:equatable/equatable.dart';
-import 'package:app/data/models/alojamiento_model.dart';
+part of 'alojamientos_bloc.dart';
 
 abstract class AlojamientosState extends Equatable {
   const AlojamientosState();
