@@ -33,13 +33,13 @@ class _AlojamientosMapScreenState extends State<AlojamientosMapScreen> {
           builder: (context, state) {
             if (state is AlojamientosLoadFailure) {
               return Center(
-                child: Text('failed to fetch alojamientos'),
+                child: Text('Failed to fetch Alojamientos'),
               );
             }
             if (state is AlojamientosLoadSuccess) {
               if (state.alojamientos.isEmpty) {
                 return Center(
-                  child: Text('no alojamientos'),
+                  child: Text('Alojamientos empty'),
                 );
               }
               alojamientos = state.alojamientos;
