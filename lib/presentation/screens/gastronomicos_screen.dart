@@ -1,4 +1,6 @@
+import 'package:app/BLoC/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:app/config/graphql_config.dart';
 import 'package:app/presentation/screens/gastronomico_detail_screen.dart';
@@ -15,39 +17,10 @@ class GastronomicosScreen extends StatefulWidget {
 }
 
 class _GastronomicosScreenState extends State<GastronomicosScreen> {
-  String query = """
-    query GetGastronomicos {
-  turismo_gastronomicos {
-      id,
-      nombre,
-      foto, 
-      lat,
-      lng,
-      domicilio,
-      localidad {
-          nombre
-      }
-    	especialidades {
-        especialidad {
-          nombre
-        }
-      }
-      actividades {
-        actividad {
-          nombre
-        }
-      }
-    }
-}
-""";
-
-  List<dynamic> _gastronomicos;
 
   @override
   Widget build(BuildContext context) {
-    return GraphQLProvider(
-      client: GraphQLConfig.initializeClient(),
-      child: Scaffold(
+    return Scaffold(
           appBar: _crearAppBar(context),
           backgroundColor: Color(0xFFF0AD5F),
           body: SafeArea(
@@ -57,9 +30,9 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
               SizedBox(height: 20.0),
               SearchBarWidget(),
               SizedBox(height: 20.0),
-              Expanded(child: _crearListContainer())
+              Expanded(child: _crearListContainer(context))
             ],
-          ))),
+          ))
     );
   }
 
@@ -79,13 +52,12 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
       leading: IconButton(
           icon: Icon(Icons.map),
           onPressed: () {
-            Navigator.pushNamed(context, GastronomicosMapScreen.ROUTENAME,
-                arguments: _gastronomicos);
+            Navigator.pushNamed(context, GastronomicosMapScreen.ROUTENAME);
           }),
     );
   }
 
-  Widget _crearListContainer() {
+  Widget _crearListContainer(BuildContext context) {
     return Stack(
       children: <Widget>[
         Container(
@@ -98,23 +70,21 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
                 BoxShadow(color: Colors.black26, blurRadius: 20.0),
               ]),
         ),
-        Query(
-          options: QueryOptions(
-            documentNode: gql(query),
-          ),
-          builder: (QueryResult result,
-              {VoidCallback refetch, FetchMore fetchMore}) {
-            if (result.hasException) {
-              return Text(result.exception.toString());
+        BlocBuilder<GastronomicosBloc, GastronomicosState>(
+          builder: (context, state) {
+            if (state is GastronomicosLoadFailure) {
+              return Center(child: Text("Fallo al buscar gastronomicos"),);
             }
-            if (result.loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
+            if (state is GastronomicosLoadSuccess) {
+              if (state.gastronomicos.isEmpty) {
+                return Center(child: Text("Alojamientos Vacio"),);
+              }
+              return _gastronomicosListView(state.gastronomicos);
             }
-            _gastronomicos = result.data["turismo_gastronomicos"];
-            return _gastronomicosListView(_gastronomicos);
-          },
+            return Center(
+              child: CircularProgressIndicator()
+            );
+          }
         )
       ],
     );

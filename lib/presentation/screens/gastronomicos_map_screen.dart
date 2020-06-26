@@ -1,4 +1,6 @@
+import 'package:app/BLoC/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
@@ -25,13 +27,27 @@ class _GastronomicosMapScreenState extends State<GastronomicosMapScreen> {
     gastronomicos = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: _crearAppBar(context),
-      body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 15.0,
-          ),
-          markers: _markers.values.toSet(),
+      body: BlocBuilder<GastronomicosBloc, GastronomicosState>(
+        builder: (context, state) {
+          if (state is GastronomicosLoadFailure) {
+            return Center(child: Text("Failed to fetch Gastronomicos"),);
+          }
+          if (state is GastronomicosLoadSuccess) {
+            if (state.gastronomicos.isEmpty) {
+              return Center(child: Text("Gastronomicos empty"));
+            }
+            gastronomicos = state.gastronomicos;
+            return GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 15.0,
+              ),
+              markers: _markers.values.toSet(),
+            );
+          }
+          return Center(child: CircularProgressIndicator(),);
+        },
       )
     );
   }
