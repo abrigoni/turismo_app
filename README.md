@@ -1,16 +1,28 @@
-# app
+# Aplicacion de Turismo para la cátedra de Taller de Nuevas Tecnologias - UNTDF
 
-A new Flutter project.
+Aplicación desarrollada en Flutter para poder explorar alojamientos y establecimientos gastronomicos en forma de lista y mapa.
 
-## Getting Started
+## A presentar para cursada: 
 
-This project is a starting point for a Flutter application.
+* Alojamientos
+	- [x] Listado
+	- [x] Mapa
+	- [ ] Tanto el listado como el mapa deben poder filtrarse por nombre, localidad, categoria y clasificacion
+	- [x] Ficha del alojamiento
+	- [x] La obtencion de datos debe realizarse mediante API REST
+* Establecimientos Gastronomicos
+	- [x] Listado
+	- [x] Mapa
+	- [ ] Tanto el listado como el mapa deben poder filtrarse por nombre, especialidad, localidad y actividad
+	- [x] Ficha del establecimiento gastronomico
+	- [x] La obtencion de datos debe realizarse mediante API GraphQL
+## A presentar para final:
+* Notas: 
+	* Se puede elegir hacer solo para alojamientos o gastronomicos segun la preferencia (REST o GraphQL). Otra opcion es pasarlo todo a la misma y hacerlo para ambos.
+	* Se debe agregar estructura extra a la BD y presentar un DER con los cambios.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+	- [ ] Login con BD en API
+	- [ ] Poder escribir comentarios ne los alojamientos O gastronomicos, junto a un "puntaje" en la forma de "Bueno", "Regular", "Malo" (Emojis sonriente, neutro y triste respectivamente)
+	- [ ] Mostrar resumen de "puntaje" en las respectivas fichas
+	- [ ] Poder entrar a una sala/grupo de chat donde todos los usuarios de la app pueden escribir.
+	
