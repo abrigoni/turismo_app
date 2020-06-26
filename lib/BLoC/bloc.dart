@@ -1,4 +1,3 @@
 export './simple_bloc_delegate.dart';
-export './alojamiento_bloc.dart';
-export './alojamiento_event.dart';
-export './alojamiento_state.dart';
+export 'alojamientos_bloc/alojamientos_bloc.dart';
+export 'gastronomicos_bloc/gastronomicos_bloc.dart';
