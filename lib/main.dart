@@ -1,7 +1,7 @@
-import 'package:app/BLoC/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:app/BLoC/bloc.dart';
 import 'package:app/BLoC/simple_bloc_delegate.dart';
 import 'package:app/routes.dart';
 import 'package:app/data/repositories/gastronomico_repository.dart';
