@@ -167,7 +167,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
   Widget _crearBotonFiltrar() {
     return Container(
       width: 150,
-      margin: EdgeInsets.only(bottom: 15),
+      margin: EdgeInsets.only(bottom: 15, top: 15),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
