@@ -10,6 +10,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
   
   String _busqueda;
   TextStyle textStyle;
+  final controller = TextEditingController();
 
   _SearchBarWidgetState() {
     this._busqueda = "";
@@ -17,10 +18,17 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
       child: TextField( 
+        controller: controller,
         style: textStyle,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -30,7 +38,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           suffixIcon: Icon(Icons.search, color: Colors.white),
           hintStyle: textStyle
         ),
-        onChanged: (value){ this._busqueda = value; },
+        onChanged: (busqueda){ _busqueda = busqueda; },
       ),
     );
   }
