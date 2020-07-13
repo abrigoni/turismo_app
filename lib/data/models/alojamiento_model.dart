@@ -25,6 +25,7 @@ class Alojamiento extends Equatable {
   int clasificacionId;
   int categoriaId;
   int localidadId;
+  bool visible = true; // para filtrado
 
   Alojamiento({
     this.id,
