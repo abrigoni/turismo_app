@@ -19,22 +19,25 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return FilterChip(
-      label: Text(widget.chipName),
-      labelStyle: TextStyle(color: _isSelected ? Colors.white : widget.primaryColor,fontSize: 16.0,fontWeight: FontWeight.bold),
-      selected: _isSelected,
-      shape:RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(0.0),
+    return Container(
+      margin: EdgeInsets.only(right: 10.0),
+      child: FilterChip(
+        label: Text(widget.chipName),
+        labelStyle: TextStyle(color: _isSelected ? Colors.white : widget.primaryColor,fontSize: 16.0,fontWeight: FontWeight.bold),
+        selected: _isSelected,
+        shape:RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14.0),
+        ),
+        backgroundColor: Color(0xffededed),
+        onSelected: (isSelected) {
+          setState(() {
+            _isSelected = isSelected;
+          });
+          widget.updateSelecteds(widget.chipName);
+        },
+        checkmarkColor: Colors.white,
+        selectedColor: widget.primaryColor,
       ),
-      backgroundColor: Color(0xffededed),
-      onSelected: (isSelected) {
-        setState(() {
-          _isSelected = isSelected;
-        });
-        widget.updateSelecteds(widget.chipName);
-      },
-      checkmarkColor: Colors.white,
-      selectedColor: widget.primaryColor,
     );
   }
 }
