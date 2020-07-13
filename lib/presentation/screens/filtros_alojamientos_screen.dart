@@ -137,11 +137,11 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
         Container(
             child: Text("Categoria",
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
-        DropdownButton(
-            items: clasificaciones.map<DropdownMenuItem>((clasificacion) {
-              return DropdownMenuItem(child: Text(clasificacion.nombre));
+        Wrap(
+            children: clasificaciones.map<FilterChipWidget>((clasificacion) {
+              return FilterChipWidget(chipName: clasificacion.nombre, primaryColor: Colors.blue);
             }).toList(),
-            onChanged: (value) {}),
+        ),
       ],
     );
   }
