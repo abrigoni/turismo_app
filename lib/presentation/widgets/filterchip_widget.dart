@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class FilterChipWidget extends StatefulWidget {
   
   final String chipName;
+  final Color primaryColor;
 
-  FilterChipWidget({Key key, this.chipName});
+  FilterChipWidget({Key key, this.chipName, this.primaryColor});
 
   @override
   _FilterChipWidgetState createState() => _FilterChipWidgetState();
@@ -17,18 +18,23 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    
     return FilterChip(
       label: Text(widget.chipName),
-      avatar: CircleAvatar(
-              backgroundColor: Color(0xFF18C5C1),
-              child: Text(widget.chipName[0],
-                style: TextStyle(color: Colors.white))),
-      onSelected: (value){
+      labelStyle: TextStyle(color: _isSelected ? Colors.white : widget.primaryColor,fontSize: 16.0,fontWeight: FontWeight.bold),
+      selected: _isSelected,
+      shape:RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(
+            30.0),),
+      backgroundColor: Color(0xffededed),
+      onSelected: (isSelected) {
         setState(() {
-          _isSelected = value;
+          _isSelected = isSelected;
         });
       },
-      selected: _isSelected,
+      checkmarkColor: Colors.white,
+      selectedColor: widget.primaryColor,
     );
   }
 }

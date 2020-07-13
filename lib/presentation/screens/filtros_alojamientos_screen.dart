@@ -1,3 +1,4 @@
+import 'package:app/presentation/widgets/filterchip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/data/providers/providers.dart';
@@ -22,8 +23,11 @@ class FiltrosAlojamientosScreen extends StatefulWidget {
 
 class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
   List<Categoria> categorias = [];
+  List<String> selectedCategorias = [];
   List<Clasificacion> clasificaciones = [];
+  List<String> selectedClasificaciones = [];
   List<Localidad> localidades = [];
+  List<String> selectedLocalidades;
 
   @override
   void initState() {
@@ -65,13 +69,16 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
           ),
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              _crearListaFiltros(),
-              _crearBotonFiltrar(),
-            ],
+          
+          child: Container(
+            width: double.infinity,
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                _crearListaFiltros(),
+                _crearBotonFiltrar(),
+              ],
+            ),
           ),
         ));
   }
@@ -97,13 +104,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
           children: localidades
-              .map<FilterChip>((e) => FilterChip(
-                  avatar: CircleAvatar(
-                      backgroundColor: Color(0xFF18C5C1),
-                      child: Text(e.nombre[0],
-                          style: TextStyle(color: Colors.white))),
-                  label: Text(e.nombre),
-                  onSelected: (value) {}))
+              .map<FilterChipWidget>((e) => FilterChipWidget(chipName: e.nombre, primaryColor: Color(0xFF18C5C1)) )
               .toList(),
         )
       ],
