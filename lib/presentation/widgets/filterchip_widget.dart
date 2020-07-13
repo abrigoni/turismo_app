@@ -19,8 +19,6 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-    
     return FilterChip(
       label: Text(widget.chipName),
       labelStyle: TextStyle(color: _isSelected ? Colors.white : widget.primaryColor,fontSize: 16.0,fontWeight: FontWeight.bold),
