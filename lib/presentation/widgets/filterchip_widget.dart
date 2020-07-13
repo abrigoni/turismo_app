@@ -26,8 +26,8 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
       labelStyle: TextStyle(color: _isSelected ? Colors.white : widget.primaryColor,fontSize: 16.0,fontWeight: FontWeight.bold),
       selected: _isSelected,
       shape:RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(
-            30.0),),
+        borderRadius: BorderRadius.circular(0.0),
+      ),
       backgroundColor: Color(0xffededed),
       onSelected: (isSelected) {
         setState(() {
