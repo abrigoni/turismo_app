@@ -27,7 +27,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
   List<Clasificacion> clasificaciones = [];
   List<String> selectedClasificaciones = [];
   List<Localidad> localidades = [];
-  List<String> selectedLocalidades;
+  List<String> selectedLocalidades = [];
 
   @override
   void initState() {
@@ -40,19 +40,43 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
   void getClasificaciones() async {
     clasificaciones = await widget.clasificacionProvider.getClasificaciones();
     setState(() {});
-    print(clasificaciones[0].nombre);
   }
 
   void getCategorias() async {
     categorias = await widget.categoriaProvider.getCategorias();
     setState(() {});
-    print(categorias[0].estrellas);
   }
 
   void getLocalidades() async {
     localidades = await widget.localidadProvider.getLocalidades();
     setState(() {});
-    print(localidades[0].nombre);
+  }
+
+  void updateSelectedLocalidades(String localidad) {
+    if (selectedLocalidades.any((element) => element == localidad)) {
+      selectedLocalidades.remove(localidad);
+    } else {
+      selectedLocalidades.add(localidad);
+    }
+    print("Selected localidades: " + selectedLocalidades.toString());
+  }
+
+  void updateSelectedClasificaciones(String clasificacion) {
+    if (selectedClasificaciones.any((element) => element == clasificacion)) {
+      selectedClasificaciones.remove(clasificacion);
+    } else {
+      selectedClasificaciones.add(clasificacion);
+    }
+    print("Selected clasificaciones: " + selectedClasificaciones.toString());
+  }
+
+  void updateSelectedCategorias(String categoria) {
+    if (selectedCategorias.any((element) => element == categoria)) {
+      selectedCategorias.remove(categoria);
+    } else {
+      selectedCategorias.add(categoria);
+    }
+    print("Selected clasificaciones: " + selectedCategorias.toString());
   }
 
   @override
@@ -69,7 +93,6 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
           ),
         ),
         body: SingleChildScrollView(
-          
           child: Container(
             width: double.infinity,
               child: Column(
@@ -104,7 +127,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
           children: localidades
-              .map<FilterChipWidget>((e) => FilterChipWidget(chipName: e.nombre, primaryColor: Color(0xFF18C5C1)) )
+              .map<FilterChipWidget>((e) => FilterChipWidget(chipName: e.nombre, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedLocalidades) )
               .toList(),
         )
       ],
@@ -119,12 +142,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
           children: categorias
-              .map<FilterChip>((e) => FilterChip(
-                  avatar: CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      child: Icon(Icons.star, color: Colors.yellow[600])),
-                  label: Text(e.estrellas),
-                  onSelected: (value) {}))
+              .map<FilterChipWidget>((e) => FilterChipWidget(chipName: e.estrellas, primaryColor: Colors.yellow[700], updateSelecteds: updateSelectedCategorias)  )
               .toList(),
         )
       ],
@@ -135,12 +153,12 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
     return Column(
       children: <Widget>[
         Container(
-            child: Text("Categoria",
+            child: Text("Clasificacion/es",
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
-            children: clasificaciones.map<FilterChipWidget>((clasificacion) {
-              return FilterChipWidget(chipName: clasificacion.nombre, primaryColor: Colors.blue);
-            }).toList(),
+            children: clasificaciones
+            .map<FilterChipWidget>((e) => FilterChipWidget(chipName: e.nombre, primaryColor: Colors.blue, updateSelecteds: updateSelectedClasificaciones))
+            .toList(),
         ),
       ],
     );

@@ -5,8 +5,9 @@ class FilterChipWidget extends StatefulWidget {
   
   final String chipName;
   final Color primaryColor;
+  final Function updateSelecteds;
 
-  FilterChipWidget({Key key, this.chipName, this.primaryColor});
+  FilterChipWidget({Key key, this.chipName, this.primaryColor, this.updateSelecteds});
 
   @override
   _FilterChipWidgetState createState() => _FilterChipWidgetState();
@@ -32,6 +33,7 @@ class _FilterChipWidgetState extends State<FilterChipWidget> {
         setState(() {
           _isSelected = isSelected;
         });
+        widget.updateSelecteds(widget.chipName);
       },
       checkmarkColor: Colors.white,
       selectedColor: widget.primaryColor,
