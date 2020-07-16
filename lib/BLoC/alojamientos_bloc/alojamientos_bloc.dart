@@ -39,6 +39,7 @@ class AlojamientosBloc extends Bloc<AlojamientosEvent, AlojamientosState> {
   }
 
   Stream<AlojamientosState> _mapAlojamientosFilterToState(Map<String, List<int>> filtros) async* {
+    yield AlojamientosLoadInProgress();
     try {
       final _state = state as AlojamientosLoadSuccess;
       List<Alojamiento> alojamientos = []..addAll(_state.alojamientos);
@@ -54,7 +55,6 @@ class AlojamientosBloc extends Bloc<AlojamientosEvent, AlojamientosState> {
           }
           return alojamiento;
       });
-      yield AlojamientosLoadInProgress();
       yield AlojamientosLoadSuccess(alojamientos: alojamientos);
     } catch(_) {
       yield AlojamientosLoadFailure();
