@@ -18,7 +18,7 @@ class AlojamientosLoadSuccess extends AlojamientosState {
   List<Object> get props => [alojamientos];
 
   @override 
-  String toString() => 'AlojamientosLoadSuccess { alojamientos: $alojamientos }';
+  String toString() => 'AlojamientosLoadSuccess { alojamientos: ${alojamientos[0]} }';
 }
 
 class AlojamientosLoadFailure extends AlojamientosState {}

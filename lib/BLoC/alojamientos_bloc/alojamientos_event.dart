@@ -9,3 +9,12 @@ abstract class AlojamientosEvent extends Equatable {
 
 class AlojamientosFetch extends AlojamientosEvent { }
 
+class AlojamientosFilter extends AlojamientosEvent { 
+  final Map<String, List<int>> filtros;
+
+  AlojamientosFilter(this.filtros);
+
+  @override
+  List<Object> get props => [filtros];
+}
+

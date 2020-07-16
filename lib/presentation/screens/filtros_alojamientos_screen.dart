@@ -1,8 +1,9 @@
 import 'package:app/presentation/widgets/filterchip_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/data/models/models.dart';
 import 'package:app/data/providers/providers.dart';
-
+import 'package:app/BLoC/bloc.dart';
 
 class FiltrosAlojamientosScreen extends StatefulWidget {
   static const String ROUTENAME = 'FiltroAlojamientosScreen';
@@ -23,12 +24,12 @@ class FiltrosAlojamientosScreen extends StatefulWidget {
 
 class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
   List<Categoria> categorias = [];
-  List<String> selectedCategorias = [];
+  List<int> selectedCategorias = [];
   List<Clasificacion> clasificaciones = [];
-  List<String> selectedClasificaciones = [];
+  List<int> selectedClasificaciones = [];
   List<Localidad> localidades = [];
-  List<String> selectedLocalidades = [];
-
+  List<int> selectedLocalidades = [];
+  AlojamientosBloc _alojamientosBloc;
   @override
   void initState() {
     super.initState();
@@ -52,7 +53,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
     setState(() {});
   }
 
-  void updateSelectedLocalidades(String localidad) {
+  void updateSelectedLocalidades(int localidad) {
     if (selectedLocalidades.any((element) => element == localidad)) {
       selectedLocalidades.remove(localidad);
     } else {
@@ -61,7 +62,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
     print("Selected localidades: " + selectedLocalidades.toString());
   }
 
-  void updateSelectedClasificaciones(String clasificacion) {
+  void updateSelectedClasificaciones(int clasificacion) {
     if (selectedClasificaciones.any((element) => element == clasificacion)) {
       selectedClasificaciones.remove(clasificacion);
     } else {
@@ -70,7 +71,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
     print("Selected clasificaciones: " + selectedClasificaciones.toString());
   }
 
-  void updateSelectedCategorias(String categoria) {
+  void updateSelectedCategorias(int categoria) {
     if (selectedCategorias.any((element) => element == categoria)) {
       selectedCategorias.remove(categoria);
     } else {
@@ -81,6 +82,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _alojamientosBloc = BlocProvider.of<AlojamientosBloc>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text("Filtrar alojamientos"),
@@ -99,7 +101,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 _crearListaFiltros(),
-                _crearBotonFiltrar(),
+                _crearBotonFiltrar(context),
               ],
             ),
           ),
@@ -127,7 +129,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
           children: localidades
-              .map<FilterChipWidget>((e) => FilterChipWidget(chipName: e.nombre, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedLocalidades) )
+              .map<FilterChipWidget>((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedLocalidades) )
               .toList(),
         )
       ],
@@ -142,7 +144,7 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
           children: categorias
-              .map<FilterChipWidget>((e) => FilterChipWidget(chipName: e.estrellas, primaryColor: Colors.yellow[700], updateSelecteds: updateSelectedCategorias)  )
+              .map<FilterChipWidget>((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.estrellas}, primaryColor: Colors.yellow[700], updateSelecteds: updateSelectedCategorias)  )
               .toList(),
         )
       ],
@@ -157,14 +159,14 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
             children: clasificaciones
-            .map<FilterChipWidget>((e) => FilterChipWidget(chipName: e.nombre, primaryColor: Colors.blue, updateSelecteds: updateSelectedClasificaciones))
+            .map<FilterChipWidget>((e) => FilterChipWidget(chipInfo: {"id": e.id, "name":  e.nombre}, primaryColor: Colors.blue, updateSelecteds: updateSelectedClasificaciones))
             .toList(),
         ),
       ],
     );
   }
 
-  Widget _crearBotonFiltrar() {
+  Widget _crearBotonFiltrar(BuildContext context) {
     return Container(
       width: 150,
       margin: EdgeInsets.only(bottom: 15, top: 15),
@@ -177,7 +179,16 @@ class _FiltrosAlojamientosScreenState extends State<FiltrosAlojamientosScreen> {
         borderRadius: BorderRadius.circular(14),
       ),
       child: MaterialButton(
-        onPressed: () {},
+        onPressed: () { 
+          var filtros = {
+            "localidades": selectedLocalidades, 
+            "categorias": selectedCategorias,
+            "clasificaciones": selectedClasificaciones,
+          };
+          Navigator.pop(context);
+          _alojamientosBloc.add(AlojamientosFilter(filtros));
+          
+        },
         child: Text("Filtrar"),
         textColor: Colors.white,
       ),

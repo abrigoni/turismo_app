@@ -91,7 +91,10 @@ class AlojamientosScreen extends StatelessWidget {
         child: ListView.builder(
                 itemCount: alojamientos.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return AlojamientoCardWidget(alojamiento: alojamientos[index], onTap: _onCardTap);
+                  if (alojamientos[index].visible)
+                    return AlojamientoCardWidget(alojamiento: alojamientos[index], onTap: _onCardTap);
+                  else 
+                    return Container();
             }
         ),
       ),
