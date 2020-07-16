@@ -44,9 +44,9 @@ class AlojamientosBloc extends Bloc<AlojamientosEvent, AlojamientosState> {
       final _state = state as AlojamientosLoadSuccess;
       List<Alojamiento> alojamientos = []..addAll(_state.alojamientos);
       alojamientos.forEach((alojamiento) {
-        if ((filtros["localidades"].any((element) => element == alojamiento.localidadId) ||
-            filtros["categorias"].any((element) => element == alojamiento.categoriaId) ||
-            filtros["clasificaciones"].any((element) => element == alojamiento.clasificacionId)) || 
+        if ((filtros["localidades"].contains(alojamiento.localidadId) ||
+            filtros["categorias"].contains(alojamiento.categoriaId) ||
+            filtros["clasificaciones"].contains(alojamiento.clasificacionId)) || 
             (filtros["localidades"].isEmpty && filtros["categorias"].isEmpty && filtros["localidades"].isEmpty) ) {
             alojamiento.visible = true;
           }
