@@ -18,3 +18,12 @@ class AlojamientosFilter extends AlojamientosEvent {
   List<Object> get props => [filtros];
 }
 
+
+class AlojamientosSearch extends AlojamientosEvent {
+  final String search; 
+
+  AlojamientosSearch(this.search);
+
+  @override 
+  List<Object> get props => [search];
+}

@@ -26,6 +26,9 @@ class AlojamientosBloc extends Bloc<AlojamientosEvent, AlojamientosState> {
     if (event is AlojamientosFilter) {
       yield* _mapAlojamientosFilterToState(event.filtros);
     }
+    if (event is AlojamientosSearch) {
+      yield *_mapAlojamientosSearchToState(event.search);
+    }
   }
 
 
@@ -48,6 +51,27 @@ class AlojamientosBloc extends Bloc<AlojamientosEvent, AlojamientosState> {
             filtros["categorias"].contains(alojamiento.categoriaId) ||
             filtros["clasificaciones"].contains(alojamiento.clasificacionId)) || 
             (filtros["localidades"].isEmpty && filtros["categorias"].isEmpty && filtros["localidades"].isEmpty) ) {
+            alojamiento.visible = true;
+          }
+          else {
+            alojamiento.visible = false;
+          }
+          return alojamiento;
+      });
+      yield AlojamientosLoadSuccess(alojamientos: alojamientos);
+    } catch(_) {
+      yield AlojamientosLoadFailure();
+    }
+  }
+
+
+  Stream<AlojamientosState> _mapAlojamientosSearchToState(String search) async* {
+    yield AlojamientosLoadInProgress();
+    try {
+      final _state = state as AlojamientosLoadSuccess;
+      List<Alojamiento> alojamientos = []..addAll(_state.alojamientos);
+      alojamientos.forEach((alojamiento) {
+        if (search.isEmpty || alojamiento.nombre.toLowerCase().contains(search.toLowerCase())) {
             alojamiento.visible = true;
           }
           else {
