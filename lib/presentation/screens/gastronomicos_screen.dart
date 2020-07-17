@@ -1,4 +1,5 @@
 import 'package:app/BLoC/bloc.dart';
+import 'package:app/data/models/gastronomico_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/presentation/screens/gastronomico_detail_screen.dart';
@@ -18,6 +19,7 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
 
   @override
   Widget build(BuildContext context) {
+    GastronomicosBloc _gastronomicosBloc = BlocProvider.of<GastronomicosBloc>(context);
     return Scaffold(
           appBar: _crearAppBar(context),
           backgroundColor: Color(0xFFF0AD5F),
@@ -26,7 +28,7 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               SizedBox(height: 20.0),
-              SearchBarWidget(),
+              SearchBarWidget(bloc: _gastronomicosBloc, blocType: "gastronomico"),
               SizedBox(height: 20.0),
               Expanded(child: _crearListContainer(context))
             ],
@@ -88,15 +90,17 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
     );
   }
 
-  Widget _gastronomicosListView(List gastronomicos) {
+  Widget _gastronomicosListView(List<Gastronomico> gastronomicos) {
     return Center(
       child: Container(
         padding: EdgeInsets.only(top: 20.0),
         child: ListView.builder(
           itemCount: gastronomicos.length,
           itemBuilder: (BuildContext context, int index) {
-            return GastronomicoCardWidget(
-                gastronomico: gastronomicos[index], onTap: _onCardTap);
+            if (gastronomicos[index].visible)
+              return GastronomicoCardWidget(gastronomico: gastronomicos[index], onTap: _onCardTap);
+            else
+              return Container();
           },
         ),
       ),
@@ -106,5 +110,9 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
   void _onCardTap(BuildContext context, dynamic gastronomico) {
     Navigator.pushNamed(context, GastronomicoDetailScreen.ROUTENAME,
         arguments: gastronomico);
+  }
+
+  void searchBlocEvent(String search) {
+    print("Hola");
   }
 }

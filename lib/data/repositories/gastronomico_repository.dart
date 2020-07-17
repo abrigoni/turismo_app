@@ -1,3 +1,4 @@
+import 'package:app/data/models/gastronomico_model.dart';
 import 'package:app/data/providers/gastronomico_provider.dart';
 
 class GastronomicoRepository {
@@ -6,7 +7,7 @@ class GastronomicoRepository {
   GastronomicoRepository({GastronomicoProvider gastronomicoProvider})
   : _gastronomicoProvider = gastronomicoProvider ?? GastronomicoProvider.create();
 
-  Future<List<dynamic>> getAll() async {
+  Future<List<Gastronomico>> getAll() async {
     final gastronomicos = await _gastronomicoProvider.getAll();
     return gastronomicos;
   }

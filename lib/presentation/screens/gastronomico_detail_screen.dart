@@ -1,6 +1,7 @@
-import 'package:app/presentation/widgets/map_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:app/data/models/gastronomico_model.dart';
+import 'package:app/presentation/widgets/map_widget.dart';
 
 
 class GastronomicoDetailScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class GastronomicoDetailScreen extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    dynamic gastronomico = ModalRoute.of(context).settings.arguments;
+    Gastronomico gastronomico = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -23,14 +24,14 @@ class GastronomicoDetailScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              _crearContenedorImagen(context, gastronomico["foto"]),
+              _crearContenedorImagen(context, gastronomico.foto),
               SizedBox(height: 10.0),
               _crearDatos(context, gastronomico), 
               MapWidget(
-                id: gastronomico["id"].toString(),
-                position: LatLng(gastronomico["lat"], gastronomico["lng"]),
-                titulo: gastronomico["nombre"],
-                domicilio: gastronomico["domicilio"]
+                id: gastronomico.id.toString(),
+                position: LatLng(gastronomico.lat, gastronomico.lng),
+                titulo: gastronomico.nombre,
+                domicilio: gastronomico.domicilio
               ),
               SizedBox(height: 10.0),
             ],
@@ -69,19 +70,19 @@ class GastronomicoDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _crearDatos(BuildContext context, dynamic gastronomico) {
+  Widget _crearDatos(BuildContext context, Gastronomico gastronomico) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(gastronomico["nombre"], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)), 
+          Text(gastronomico.nombre, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)), 
           SizedBox(height: 10.0),
-          _crearActividades(gastronomico["actividades"]),
+          _crearActividades(gastronomico.actividades),
           SizedBox(height: 10.0),
-          _crearEspecialidades(gastronomico["especialidades"]),
+          _crearEspecialidades(gastronomico.especialidades),
           SizedBox(height: 10.0),
-          Text(gastronomico["localidad"]["nombre"], style: dataStyle),
+          Text(gastronomico.localidad["nombre"], style: dataStyle),
           SizedBox(height: 10.0),
         ],
       )

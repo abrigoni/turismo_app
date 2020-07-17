@@ -14,6 +14,7 @@ class AlojamientosScreen extends StatelessWidget {
 
   @override 
   Widget build(BuildContext context) {
+    AlojamientosBloc _alojamientosBloc = BlocProvider.of<AlojamientosBloc>(context);
     return Scaffold(
         backgroundColor: Color(0xFF4EAEFB),
         appBar: _crearAppBar(context),
@@ -21,7 +22,7 @@ class AlojamientosScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             SizedBox(height: 20.0 ),
-            SearchBarWidget(),
+            SearchBarWidget(bloc: _alojamientosBloc, blocType: "alojamiento",),
             SizedBox(height: 20.0),
             Expanded(
               child: _crearListContainer(context),
@@ -103,5 +104,10 @@ class AlojamientosScreen extends StatelessWidget {
 
   void _onCardTap(BuildContext context, Alojamiento alojamiento) {
     Navigator.pushNamed(context, AlojamientoDetailScreen.ROUTENAME, arguments: alojamiento);
+  }
+
+  void searchBlocEvent(String search) {
+    // BlocProvider.of<AlojamientosBloc>(context)..add(AlojamientosSearch(search));
+    print("Hola");
   }
 }

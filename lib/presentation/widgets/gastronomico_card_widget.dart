@@ -1,10 +1,11 @@
+import 'package:app/data/models/gastronomico_model.dart';
 import 'package:flutter/material.dart';
 
 
 
 class GastronomicoCardWidget extends StatelessWidget {
 
-  final gastronomico;
+  final Gastronomico gastronomico;
   final Function(BuildContext, dynamic) onTap;
 
   GastronomicoCardWidget({this.gastronomico, this.onTap});
@@ -21,9 +22,9 @@ class GastronomicoCardWidget extends StatelessWidget {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    _crearImagen(gastronomico["foto"]),
+                    _crearImagen(gastronomico.foto),
                     SizedBox(width:10.0),
-                    _crearInfo(gastronomico["nombre"], gastronomico["localidad"]["nombre"]),
+                    _crearInfo(gastronomico.nombre, gastronomico.localidad["nombre"]),
                     SizedBox(width: 10.0),
                     _crearAcciones()
                   ],

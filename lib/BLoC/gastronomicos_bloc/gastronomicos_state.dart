@@ -10,7 +10,7 @@ abstract class GastronomicosState extends Equatable {
 class GastronomicosLoadInProgress extends GastronomicosState {}
 
 class GastronomicosLoadSuccess extends GastronomicosState {
-  final List<dynamic> gastronomicos; 
+  final List<Gastronomico> gastronomicos; 
 
   const GastronomicosLoadSuccess({@required this.gastronomicos}) : assert(gastronomicos != null);
 
