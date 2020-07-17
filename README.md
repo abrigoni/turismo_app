@@ -30,7 +30,7 @@ Aplicación desarrollada en Flutter para poder explorar alojamientos y estableci
 	* Se debe agregar estructura extra a la BD y presentar un DER con los cambios.
 
 	- [ ] Login con BD en API
-	- [ ] Poder escribir comentarios ne los alojamientos O gastronomicos, junto a un "puntaje" en la forma de "Bueno", "Regular", "Malo" (Emojis sonriente, neutro y triste respectivamente)
+	- [ ] Poder escribir comentarios en los alojamientos O gastronomicos, junto a un "puntaje" en la forma de "Bueno", "Regular", "Malo" (Emojis sonriente, neutro y triste respectivamente)
 	- [ ] Mostrar resumen de "puntaje" en las respectivas fichas
 	- [ ] Poder entrar a una sala/grupo de chat donde todos los usuarios de la app pueden escribir.
 	
