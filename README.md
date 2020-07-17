@@ -7,7 +7,7 @@ Aplicación desarrollada en Flutter para poder explorar alojamientos y estableci
 * Alojamientos
 	- [x] Listado
 	- [x] Mapa
-	- [ ] Tanto el listado como el mapa deben poder filtrarse por nombre, localidad, categoria y clasificacion
+	- [X] Tanto el listado como el mapa deben poder filtrarse por nombre, localidad, categoria y clasificacion
 	- [x] Ficha del alojamiento
 	- [x] La obtencion de datos debe realizarse mediante API REST
 * Establecimientos Gastronomicos
