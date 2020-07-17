@@ -1,3 +1,4 @@
+import 'package:app/data/repositories/filtros_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:app/presentation/screens/alojamiento_detail_screen.dart';
 import 'package:app/presentation/screens/alojamientos_map_screen.dart';
@@ -25,6 +26,8 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   ),
   GastronomicosMapScreen.ROUTENAME:     (BuildContext context) => GastronomicosMapScreen(),
   GastronomicoDetailScreen.ROUTENAME:     (BuildContext context) => GastronomicoDetailScreen(),
-  FiltrosGastronomicosScreen.ROUTENAME: (BuildContext context) => FiltrosGastronomicosScreen(),
+  FiltrosGastronomicosScreen.ROUTENAME: (BuildContext context) => FiltrosGastronomicosScreen(
+    filtrosRepository: FiltrosRepository.create(),
+  ),
   FavoritosScreen.ROUTENAME:            (BuildContext context) => FavoritosScreen(),
 };
