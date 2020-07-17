@@ -77,7 +77,6 @@ class AlojamientosBloc extends Bloc<AlojamientosEvent, AlojamientosState> {
           else {
             alojamiento.visible = false;
           }
-          return alojamiento;
       });
       yield AlojamientosLoadSuccess(alojamientos: alojamientos);
     } catch(_) {
