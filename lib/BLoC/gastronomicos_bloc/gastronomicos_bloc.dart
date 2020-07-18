@@ -41,8 +41,40 @@ class GastronomicosBloc extends Bloc<GastronomicosEvent, GastronomicosState> {
     }
   }
 
+  bool checkEspecialidad(List<dynamic> valores, List<int> valoresFiltro) {
+    for (var valor in valores) {
+      if (valoresFiltro.contains(valor["especialidad"]["id"]))
+        return true;
+    }
+    return false;
+  }
+
+  bool checkActividad(List<dynamic> valores, List<int> valoresFiltro) {
+    for (var valor in valores) {
+      if (valoresFiltro.contains(valor["actividad"]["id"]))
+        return true;
+    }
+    return false;
+  }
+
   Stream<GastronomicosState> _mapGastronomicosFilterToState(Map<String, List<int>> filtros) async* {
     print(filtros);
+    yield GastronomicosLoadInProgress();
+    try {
+      final _state = state as GastronomicosLoadSuccess;
+      List<Gastronomico> gastronomicos = []..addAll(_state.gastronomicos);
+      gastronomicos.forEach((gastronomico) {
+        if ( (filtros["localidades"].isEmpty && filtros["especialidades"].isEmpty && filtros["actividades"].isEmpty) || 
+          (
+          filtros["localidades"].contains(gastronomico.localidadId) || checkEspecialidad(gastronomico.especialidades, filtros["especialidades"]) || checkActividad(gastronomico.actividades ,filtros["actividades"]) )) 
+          gastronomico.visible = true;
+        else 
+          gastronomico.visible = false;
+      }); 
+      yield GastronomicosLoadSuccess(gastronomicos: gastronomicos);
+    } catch(_) {
+      yield GastronomicosLoadFailure();
+    }
   }
 
   Stream<GastronomicosState> _mapGastronomicosSearchToState(String search) async* {

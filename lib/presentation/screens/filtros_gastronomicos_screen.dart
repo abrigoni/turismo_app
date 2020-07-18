@@ -1,5 +1,8 @@
-import 'package:app/data/repositories/filtros_repository.dart';
+import 'package:app/presentation/widgets/filterchip_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:app/data/repositories/filtros_repository.dart';
+import 'package:app/BLoC/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class FiltrosGastronomicosScreen extends StatefulWidget {
@@ -16,7 +19,10 @@ class FiltrosGastronomicosScreen extends StatefulWidget {
 
 class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen> {
   Map<String, List> filtros;
-
+  List<int> selectedLocalidades= [];
+  List<int> selectedEspecialidades = [];
+  List<int> selectedActividades = [];
+  GastronomicosBloc _gastronomicosBloc;
 
   @override 
   void initState() {
@@ -26,12 +32,12 @@ class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen>
 
   void getFiltros() async {
     filtros = await widget.filtrosRepository.getFiltrosGastronomicos();
-    print(filtros);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    _gastronomicosBloc = BlocProvider.of<GastronomicosBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Filtrar Gastronomicos"),
@@ -43,9 +49,126 @@ class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen>
           },
         ),
       ),
-      body: Center(
-        child: Text("Filtro de Gastronomicos :D")
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              _crearListaFiltros(),
+              _crearBotonFiltrar(context)
+            ],
+          )
+        ),
       )
+    );
+  }
+
+  Widget _crearListaFiltros() {
+    return Column(
+      children: <Widget>[
+        SizedBox(height:10),
+        _crearFiltrosLocalidades(),
+        SizedBox(height:10),
+        _crearFiltrosEspecialidades(),
+        SizedBox(height:10),
+        _crearFiltrosActividades(),
+      ],
+    );
+  }
+
+
+  void updateSelectedLocalidades(int localidad) {
+    if (selectedLocalidades.any((element) => element == localidad)) {
+      selectedLocalidades.remove(localidad);
+    } else {
+      selectedLocalidades.add(localidad);
+    }
+    print("Selected localidades: " + selectedLocalidades.toString());
+  }
+
+  Widget _crearFiltrosLocalidades() {
+    return Column(
+      children: <Widget>[
+        Container(
+            child: Text("Localidad/es",
+                style: TextStyle(color: Colors.black, fontSize: 24.0))),
+        Wrap(
+          children: filtros["localidades"].map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedLocalidades)).toList(),
+        )
+      ],
+    );
+  }
+
+  void updateSelectedEspecialidades(int especialidad) {
+    if (selectedEspecialidades.any((element) => element == especialidad)) {
+      selectedEspecialidades.remove(especialidad);
+    } else {
+      selectedEspecialidades.add(especialidad);
+    }
+    print("Selected especialidades: " + selectedEspecialidades.toString());
+  }
+
+  Widget _crearFiltrosEspecialidades() {
+    return Column(
+      children: <Widget>[
+        Container(
+            child: Text("Especialidad/es",
+                style: TextStyle(color: Colors.black, fontSize: 24.0))),
+        Wrap(
+          children: filtros["especialidades"].map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedEspecialidades)).toList(),
+        )
+      ],
+    );
+  }
+
+  void updateSelectedActividades(int actividad) {
+    if (selectedActividades.any((element) => element == actividad)) {
+      selectedActividades.remove(actividad);
+    } else {
+      selectedActividades.add(actividad);
+    }
+    print("Selected actividades: " + selectedActividades.toString());
+  }
+
+  Widget _crearFiltrosActividades() {
+    return Column(
+      children: <Widget>[
+        Container(
+            child: Text("Actividad/es",
+                style: TextStyle(color: Colors.black, fontSize: 24.0))),
+        Wrap(
+          children: filtros["actividades"].map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedActividades)).toList(),
+        )
+      ],
+    );
+  }
+
+  Widget _crearBotonFiltrar(BuildContext context) {
+    return Container(
+      width: 150,
+      margin: EdgeInsets.only(bottom: 15, top: 15),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [const Color(0xFF18C5C1), const Color(0xFF25EAA5)],
+        ),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: MaterialButton(
+        onPressed: () { 
+          Navigator.pop(context);
+          var filtros = {
+            "localidades": selectedLocalidades,
+            "especialidades": selectedEspecialidades,
+            "actividades": selectedActividades
+          };
+          _gastronomicosBloc.add(GastronomicosFilter(filtros));
+        },
+        child: Text("Filtrar"),
+        textColor: Colors.white,
+      ),
     );
   }
 }
