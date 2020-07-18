@@ -18,22 +18,11 @@ class FiltrosGastronomicosScreen extends StatefulWidget {
 }
 
 class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen> {
-  Map<String, List> filtros;
   List<int> selectedLocalidades= [];
   List<int> selectedEspecialidades = [];
   List<int> selectedActividades = [];
   GastronomicosBloc _gastronomicosBloc;
 
-  @override 
-  void initState() {
-    super.initState();
-    getFiltros();
-  }
-
-  void getFiltros() async {
-    filtros = await widget.filtrosRepository.getFiltrosGastronomicos();
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +44,15 @@ class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              _crearListaFiltros(),
+              FutureBuilder(
+                future: widget.filtrosRepository.getFiltrosGastronomicos(),
+                builder: (BuildContext context, AsyncSnapshot<Map<String, List>> snapshot) {
+                  if (snapshot.hasData) {
+                    return _crearListaFiltros(snapshot.data);
+                  }
+                  return CircularProgressIndicator();
+                }
+              ),
               _crearBotonFiltrar(context)
             ],
           )
@@ -64,15 +61,15 @@ class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen>
     );
   }
 
-  Widget _crearListaFiltros() {
+  Widget _crearListaFiltros(Map<String, List> filtros) {
     return Column(
       children: <Widget>[
         SizedBox(height:10),
-        _crearFiltrosLocalidades(),
+        _crearFiltrosLocalidades(filtros["localidades"]),
         SizedBox(height:10),
-        _crearFiltrosEspecialidades(),
+        _crearFiltrosEspecialidades(filtros["especialidades"]),
         SizedBox(height:10),
-        _crearFiltrosActividades(),
+        _crearFiltrosActividades(filtros["actividades"]),
       ],
     );
   }
@@ -87,14 +84,14 @@ class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen>
     print("Selected localidades: " + selectedLocalidades.toString());
   }
 
-  Widget _crearFiltrosLocalidades() {
+  Widget _crearFiltrosLocalidades(List<dynamic> localidades) {
     return Column(
       children: <Widget>[
         Container(
             child: Text("Localidad/es",
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
-          children: filtros["localidades"].map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedLocalidades)).toList(),
+          children: localidades.map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedLocalidades)).toList(),
         )
       ],
     );
@@ -109,14 +106,14 @@ class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen>
     print("Selected especialidades: " + selectedEspecialidades.toString());
   }
 
-  Widget _crearFiltrosEspecialidades() {
+  Widget _crearFiltrosEspecialidades(List<dynamic> especialidades) {
     return Column(
       children: <Widget>[
         Container(
             child: Text("Especialidad/es",
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
-          children: filtros["especialidades"].map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedEspecialidades)).toList(),
+          children: especialidades.map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedEspecialidades)).toList(),
         )
       ],
     );
@@ -131,14 +128,14 @@ class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen>
     print("Selected actividades: " + selectedActividades.toString());
   }
 
-  Widget _crearFiltrosActividades() {
+  Widget _crearFiltrosActividades(List<dynamic> actividades) {
     return Column(
       children: <Widget>[
         Container(
             child: Text("Actividad/es",
                 style: TextStyle(color: Colors.black, fontSize: 24.0))),
         Wrap(
-          children: filtros["actividades"].map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedActividades)).toList(),
+          children: actividades.map((e) => FilterChipWidget(chipInfo: {"id": e.id, "name": e.nombre}, primaryColor: Color(0xFF18C5C1), updateSelecteds: updateSelectedActividades)).toList(),
         )
       ],
     );
