@@ -1,8 +1,9 @@
-import 'package:app/data/repositories/filtros_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:app/data/repositories/filtros_repository.dart';
 import 'package:app/presentation/screens/alojamiento_detail_screen.dart';
 import 'package:app/presentation/screens/alojamientos_map_screen.dart';
 import 'package:app/presentation/screens/favoritos_screen.dart';
+import 'package:app/presentation/screens/favoritos_map_screen.dart';
 import 'package:app/presentation/screens/filtros_alojamientos_screen.dart';
 import 'package:app/presentation/screens/filtros_gastronomicos_screen.dart';
 import 'package:app/presentation/screens/gastronomico_detail_screen.dart';
@@ -30,4 +31,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
     filtrosRepository: FiltrosRepository.create(),
   ),
   FavoritosScreen.ROUTENAME:            (BuildContext context) => FavoritosScreen(),
+  FavoritosMapScreen.ROUTENAME: (BuildContext context) => FavoritosMapScreen()
 };
