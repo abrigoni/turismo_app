@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/BLoC/bloc.dart';
-import 'package:app/BLoC/simple_bloc_delegate.dart';
 import 'package:app/routes.dart';
 import 'package:app/data/repositories/gastronomico_repository.dart';
 import 'package:app/data/repositories/alojamiento_repository.dart';
 import 'package:app/presentation/screens/home_screen.dart';
-import 'BLoC/bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-void main() {
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  BlocSupervisor.delegate = await HydratedBlocDelegate.build();
   runApp(MyApp());
 }
 
@@ -25,6 +24,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<AlojamientosBloc>( 
           create: (context) => AlojamientosBloc( alojamientoRepository: AlojamientoRepository())..add( AlojamientosFetch() ) 
         ),
+        BlocProvider<FavoritosBloc>(
+          create: (context) => FavoritosBloc()..add(FavoritosFetch())
+        )
       ],
       child: MaterialApp(
         title: 'Turismo App',
