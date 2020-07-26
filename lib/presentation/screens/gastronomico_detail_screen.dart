@@ -1,4 +1,6 @@
+import 'package:app/BLoC/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:app/data/models/gastronomico_model.dart';
 import 'package:app/presentation/widgets/map_widget.dart';
@@ -11,11 +13,14 @@ class GastronomicoDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Gastronomico gastronomico = ModalRoute.of(context).settings.arguments;
+    FavoritosBloc _favoritosBloc = BlocProvider.of<FavoritosBloc>(context);
     return Scaffold(
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 10),
         child: FloatingActionButton(
-          onPressed: (){},
+          onPressed: (){
+            _favoritosBloc.add(FavoritoCreate(establecimiento: gastronomico, esAlojamiento: false));
+          },
           child: Icon(Icons.favorite),
         )
       ),

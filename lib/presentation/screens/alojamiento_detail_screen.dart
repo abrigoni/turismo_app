@@ -1,4 +1,6 @@
+import 'package:app/BLoC/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:app/data/providers/providers.dart';
 import 'package:app/data/models/models.dart';
@@ -29,13 +31,6 @@ class _AlojamientoDetailScreenState extends State<AlojamientoDetailScreen> {
 
   TextStyle dataStyle = TextStyle(fontSize: 20);
 
-  @override 
-  void initState() {
-    super.initState();
-    
-  }
-
-
   @override
   Widget build(BuildContext context) {
     alojamiento = ModalRoute.of(context).settings.arguments;
@@ -44,11 +39,15 @@ class _AlojamientoDetailScreenState extends State<AlojamientoDetailScreen> {
     futureCategoria = widget.categoriaProvider.getcategoriaById(alojamiento.categoriaId);
     futureLocalidad = widget.localidadProvider.getLocalidadById(alojamiento.localidadId);
 
+    FavoritosBloc _favoritosBloc = BlocProvider.of<FavoritosBloc>(context);
+
     return Scaffold(
         floatingActionButton: Container(
           margin: EdgeInsets.only(bottom: 10),
           child: FloatingActionButton(
-            onPressed: (){},
+            onPressed: (){
+              _favoritosBloc.add(FavoritoCreate(establecimiento: alojamiento, esAlojamiento: true));
+            },
             child: Icon(Icons.favorite),
           ),
         ),
