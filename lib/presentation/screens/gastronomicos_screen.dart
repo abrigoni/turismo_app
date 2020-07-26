@@ -107,7 +107,7 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
     );
   }
 
-  void _onCardTap(BuildContext context, dynamic gastronomico) {
+  void _onCardTap(BuildContext context, Gastronomico gastronomico) {
     Navigator.pushNamed(context, GastronomicoDetailScreen.ROUTENAME,
         arguments: gastronomico);
   }
