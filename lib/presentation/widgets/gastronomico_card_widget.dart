@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class GastronomicoCardWidget extends StatelessWidget {
 
   final Gastronomico gastronomico;
-  final Function(BuildContext, dynamic) onTap;
+  final Function(BuildContext, Gastronomico) onTap;
 
   GastronomicoCardWidget({this.gastronomico, this.onTap});
 
@@ -26,7 +26,7 @@ class GastronomicoCardWidget extends StatelessWidget {
                     SizedBox(width:10.0),
                     _crearInfo(gastronomico.nombre, gastronomico.localidad["nombre"]),
                     SizedBox(width: 10.0),
-                    _crearAcciones()
+                    Icon(Icons.location_on, color: Colors.orange, size: 30),
                   ],
                 ),
                 Divider()
@@ -60,15 +60,6 @@ class GastronomicoCardWidget extends StatelessWidget {
           Text(localidad)
         ],
       )
-    );
-  }
-
-  Widget _crearAcciones() {
-    return Row(
-      children: <Widget>[
-        Icon(Icons.location_on, color: Colors.orange, size: 30),
-        Icon(Icons.favorite, color: Colors.red, size: 30)
-      ],
     );
   }
 

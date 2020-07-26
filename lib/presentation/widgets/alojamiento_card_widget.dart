@@ -26,7 +26,7 @@ class AlojamientoCardWidget extends StatelessWidget {
                     SizedBox(width:10.0),
                     _crearInfo(alojamiento.nombre, alojamiento.domicilio, alojamiento.categoriaId),
                     SizedBox(width:10.0),
-                    _crearAcciones()
+                    Icon(Icons.location_on, color: Colors.blue, size: 30),
                   ],
                 ),
                 Divider()
@@ -74,14 +74,4 @@ class AlojamientoCardWidget extends StatelessWidget {
       ),
     );
   }
-
-  Widget _crearAcciones() {
-    return Row(
-      children: <Widget>[
-        Icon(Icons.location_on, color: Colors.blue, size: 30),
-        Icon(Icons.favorite, color: Colors.red, size: 30) 
-      ],
-    );
-  }
-
 }
