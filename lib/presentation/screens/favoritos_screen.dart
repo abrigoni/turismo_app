@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/BLoC/favoritos_bloc/favoritos_bloc.dart';
 import 'package:app/presentation/widgets/searchbar_widget.dart';
 import 'package:app/presentation/screens/favoritos_map_screen.dart';
+import 'package:app/data/models/favorito_model.dart';
 
 
 class FavoritosScreen extends StatelessWidget {
@@ -24,7 +25,7 @@ class FavoritosScreen extends StatelessWidget {
           SearchBarWidget(bloc: _favoritosBloc, blocType: 'Favorito'),
           SizedBox(height:20),
           Expanded(
-            child: _crearListContainer(context)
+            child: _crearListContainer(context, _favoritosBloc)
           )
         ]
       )
@@ -42,7 +43,7 @@ class FavoritosScreen extends StatelessWidget {
     );
   }
 
-  Widget _crearListContainer(BuildContext context) {
+  Widget _crearListContainer(BuildContext context, FavoritosBloc bloc) {
     return Stack(
       children: <Widget>[
         Container(
@@ -68,7 +69,7 @@ class FavoritosScreen extends StatelessWidget {
                   child: Text('Favoritos vacio'),
                 );
               }
-              return _favoritosListView(state.favoritos);
+              return _favoritosListView(state.favoritos, bloc);
             }
             return Center(
               child: CircularProgressIndicator(),
@@ -79,9 +80,18 @@ class FavoritosScreen extends StatelessWidget {
     );
   }
 
-  Widget _favoritosListView(List<dynamic> favoritos) {
+  Widget _favoritosListView(List<Favorito> favoritos, FavoritosBloc bloc) {
     return Container(
-      child: Text("Listado")
+      child: Column(
+        children: favoritos.map<Widget>((f) {
+          return GestureDetector(
+            onTap: () {
+              bloc.add(FavoritoDelete(favorito: f));
+            },
+            child: Text(f.establecimientoId.toString() + f.esAlojamiento.toString())
+          );
+        }).toList(),
+      )
     );
   }
 }

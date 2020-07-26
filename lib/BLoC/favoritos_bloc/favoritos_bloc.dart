@@ -52,7 +52,7 @@ class FavoritosBloc extends HydratedBloc<FavoritosEvent, FavoritosState> {
       yield* _mapFavoritoUpdateToState();
     }
     if (event is FavoritoDelete) {
-      yield* _mapFavoritoDeleteToState();
+      yield* _mapFavoritoDeleteToState(event.favorito);
     }
   }
 
@@ -82,7 +82,15 @@ class FavoritosBloc extends HydratedBloc<FavoritosEvent, FavoritosState> {
     throw UnimplementedError();
   }
 
-  Stream<FavoritosState> _mapFavoritoDeleteToState() async* {
-    throw UnimplementedError();
+  Stream<FavoritosState> _mapFavoritoDeleteToState(Favorito favorito) async* {
+    yield FavoritosLoadInProgress();
+    try {
+      var _state = state as FavoritosLoadSuccess;
+      List<Favorito> favoritos = []..addAll(_state.favoritos);
+      favoritos.remove(favorito);
+      yield FavoritosLoadSuccess(favoritos: favoritos);
+    } catch(_) {
+      yield FavoritosLoadFailure();
+    }
   }
 }

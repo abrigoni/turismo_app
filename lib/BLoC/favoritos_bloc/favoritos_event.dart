@@ -18,23 +18,24 @@ class FavoritoCreate extends FavoritosEvent {
   const FavoritoCreate({@required this.establecimiento, @required this.esAlojamiento});
 
   @override
-  List<Object> get props => [establecimiento];
-}
-
-class FavoritoDelete extends FavoritosEvent {
-  final dynamic establecimiento;
-
-  const FavoritoDelete(this.establecimiento);
-
-  @override
-  List<Object> get props => [establecimiento];
+  List<Object> get props => [establecimiento, esAlojamiento];
 }
 
 class FavoritoUpdate extends FavoritosEvent {
   final dynamic establecimiento;
+  final bool esAlojamiento;
 
-  const FavoritoUpdate(this.establecimiento);
+  const FavoritoUpdate({@required this.establecimiento, @required this.esAlojamiento});
 
   @override
-  List<Object> get props => [establecimiento];
+  List<Object> get props => [establecimiento, esAlojamiento];
+}
+
+class FavoritoDelete extends FavoritosEvent {
+  final Favorito favorito;
+
+  const FavoritoDelete({@required this.favorito});
+
+  @override
+  List<Object> get props => [favorito];
 }
