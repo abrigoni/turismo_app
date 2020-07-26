@@ -33,7 +33,9 @@ dependencies:
   google_maps_flutter: ^0.5.27+3
   bloc: ^4.0.0
   flutter_bloc: ^4.0.0
+  hydrated_bloc: ^4.0.0
   equatable: ^1.2.0
+  json_serializable: ^3.3.0
 
 dev_dependencies:
   flutter_test:
