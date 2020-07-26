@@ -7,6 +7,7 @@ class Favorito extends Equatable {
   int establecimientoId;
   bool esAlojamiento; /* si no es alojamiento es gastr */
   List<String> recuerdos;
+  bool visible = true;
 
   Favorito({@required this.establecimientoId, this.esAlojamiento, this.recuerdos});
 

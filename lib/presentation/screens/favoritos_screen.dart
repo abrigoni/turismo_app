@@ -31,7 +31,7 @@ class FavoritosScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           SizedBox(height:20),
-          SearchBarWidget(bloc: _favoritosBloc, blocType: 'Favorito'),
+          SearchBarWidget(bloc: _favoritosBloc, blocType: 'favorito'),
           SizedBox(height:20),
           Expanded(
             child: _crearListContainer(context, _favoritosBloc, _alojamientosBloc, _gastronomicosBloc)
@@ -97,14 +97,17 @@ class FavoritosScreen extends StatelessWidget {
         itemCount: favoritos.length,
         itemBuilder: (BuildContext context, int index) {
           var favorito = favoritos[index];
-          if (favorito.esAlojamiento) {
-            var alojamientosState = alojamientosBloc.state as AlojamientosLoadSuccess;
-            var alojamiento = alojamientosState.alojamientos.firstWhere((element) => element.id == favorito.establecimientoId);
-            return AlojamientoCardWidget(alojamiento: alojamiento, onTap: _onAlojamientoCardTap);
+          if (favorito.visible) {
+            if (favorito.esAlojamiento) {
+              var alojamientosState = alojamientosBloc.state as AlojamientosLoadSuccess;
+              var alojamiento = alojamientosState.alojamientos.firstWhere((element) => element.id == favorito.establecimientoId);
+              return AlojamientoCardWidget(alojamiento: alojamiento, onTap: _onAlojamientoCardTap);
+            }
+            var gastronomicosState = gastronomicosBloc.state as GastronomicosLoadSuccess;
+            var gastronomico = gastronomicosState.gastronomicos.firstWhere((element) => element.id == favorito.establecimientoId);
+            return GastronomicoCardWidget(gastronomico: gastronomico, onTap: _onGastronomicoCardTap);
           }
-          var gastronomicosState = gastronomicosBloc.state as GastronomicosLoadSuccess;
-          var gastronomico = gastronomicosState.gastronomicos.firstWhere((element) => element.id == favorito.establecimientoId);
-          return GastronomicoCardWidget(gastronomico: gastronomico, onTap: _onGastronomicoCardTap);
+          return Container();
         },
       )),
     );

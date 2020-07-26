@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:app/BLoC/bloc.dart';
+import 'package:app/data/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -48,6 +49,9 @@ class FavoritosBloc extends HydratedBloc<FavoritosEvent, FavoritosState> {
     if (event is FavoritoCreate) {
       yield* _mapFavoritoCreateToState(event.establecimiento, event.esAlojamiento);
     }
+    if (event is FavoritosSearch) {
+      yield* _mapFavoritosSearchToState(event.search, event.alojamientos, event.gastronomicos);
+    }
     if (event is FavoritoUpdate) {
       yield* _mapFavoritoUpdateToState();
     }
@@ -72,6 +76,32 @@ class FavoritosBloc extends HydratedBloc<FavoritosEvent, FavoritosState> {
       List<Favorito> favoritos = []..addAll(_state.favoritos);
       Favorito favorito = Favorito(establecimientoId: establecimiento.id, esAlojamiento: esAlojamiento, recuerdos: []);
       favoritos.add(favorito);
+      yield FavoritosLoadSuccess(favoritos: favoritos);
+    } catch(_) {
+      yield FavoritosLoadFailure();
+    }
+  }
+
+  Stream<FavoritosState> _mapFavoritosSearchToState(String search, List<Alojamiento> alojamientos, List<Gastronomico> gastronomicos) async* {
+    yield FavoritosLoadInProgress();
+    try {
+      var _state = state as FavoritosLoadSuccess;
+      List<Favorito> favoritos = []..addAll(_state.favoritos);
+      favoritos.forEach((favorito) {
+        if (favorito.esAlojamiento) {
+          if (alojamientos.firstWhere((alojamiento) => alojamiento.id == favorito.establecimientoId).nombre.toLowerCase().contains(search.toLowerCase())) {
+            favorito.visible = true;
+          } else {
+            favorito.visible = false;
+          }
+        } else {
+          if (gastronomicos.firstWhere((gastronomico) => gastronomico.id == favorito.establecimientoId).nombre.toLowerCase().contains(search.toLowerCase())) {
+            favorito.visible = true;
+          } else {
+            favorito.visible = false;
+          }
+        }
+      });
       yield FavoritosLoadSuccess(favoritos: favoritos);
     } catch(_) {
       yield FavoritosLoadFailure();

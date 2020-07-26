@@ -21,6 +21,17 @@ class FavoritoCreate extends FavoritosEvent {
   List<Object> get props => [establecimiento, esAlojamiento];
 }
 
+class FavoritosSearch extends FavoritosEvent {
+  final String search; 
+  final List<Alojamiento> alojamientos;
+  final List<Gastronomico> gastronomicos;
+
+  FavoritosSearch(this.search, this.alojamientos, this.gastronomicos);
+
+  @override 
+  List<Object> get props => [search];
+}
+
 class FavoritoUpdate extends FavoritosEvent {
   final dynamic establecimiento;
   final bool esAlojamiento;
