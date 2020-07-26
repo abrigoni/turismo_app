@@ -111,8 +111,4 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
     Navigator.pushNamed(context, GastronomicoDetailScreen.ROUTENAME,
         arguments: gastronomico);
   }
-
-  void searchBlocEvent(String search) {
-    print("Hola");
-  }
 }
