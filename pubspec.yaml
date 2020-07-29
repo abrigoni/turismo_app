@@ -36,6 +36,7 @@ dependencies:
   hydrated_bloc: ^4.0.0
   equatable: ^1.2.0
   json_serializable: ^3.3.0
+  image_picker: ^0.6.7+4
 
 dev_dependencies:
   flutter_test:

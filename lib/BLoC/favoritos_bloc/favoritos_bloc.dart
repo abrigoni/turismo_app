@@ -53,10 +53,10 @@ class FavoritosBloc extends HydratedBloc<FavoritosEvent, FavoritosState> {
       yield* _mapFavoritosSearchToState(event.search, event.alojamientos, event.gastronomicos);
     }
     if (event is FavoritoUpdate) {
-      yield* _mapFavoritoUpdateToState();
+      yield* _mapFavoritoUpdateToState(event.establecimiento, event.esAlojamiento, event.image, event.borrado);
     }
     if (event is FavoritoDelete) {
-      yield* _mapFavoritoDeleteToState(event.favorito);
+      yield* _mapFavoritoDeleteToState(event.establecimiento, event.esAlojamiento);
     }
   }
 
@@ -108,16 +108,29 @@ class FavoritosBloc extends HydratedBloc<FavoritosEvent, FavoritosState> {
     }
   }
 
-  Stream<FavoritosState> _mapFavoritoUpdateToState() async* {
-    throw UnimplementedError();
-  }
-
-  Stream<FavoritosState> _mapFavoritoDeleteToState(Favorito favorito) async* {
+  Stream<FavoritosState> _mapFavoritoUpdateToState(dynamic establecimiento, bool esAlojamiento, String image, bool borrado) async* {
     yield FavoritosLoadInProgress();
     try {
       var _state = state as FavoritosLoadSuccess;
       List<Favorito> favoritos = []..addAll(_state.favoritos);
-      favoritos.remove(favorito);
+      var favorito = favoritos.firstWhere((element) => element.esAlojamiento == esAlojamiento && element.establecimientoId == establecimiento.id);
+      if (borrado) {
+        favorito.recuerdos.remove(image);
+      } else {
+        favorito.recuerdos.add(image);
+      }
+      yield FavoritosLoadSuccess(favoritos: favoritos);
+    } catch(_) {
+      yield FavoritosLoadFailure();
+    }
+  }
+
+  Stream<FavoritosState> _mapFavoritoDeleteToState(dynamic establecimiento, bool esAlojamiento) async* {
+    yield FavoritosLoadInProgress();
+    try {
+      var _state = state as FavoritosLoadSuccess;
+      List<Favorito> favoritos = []..addAll(_state.favoritos);
+      favoritos.removeWhere((element) => element.esAlojamiento == esAlojamiento && element.establecimientoId == establecimiento.id);
       yield FavoritosLoadSuccess(favoritos: favoritos);
     } catch(_) {
       yield FavoritosLoadFailure();
