@@ -1,27 +1,69 @@
+import 'dart:io';
+
 import 'package:app/BLoC/bloc.dart';
+import 'package:app/data/models/favorito_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:app/data/models/gastronomico_model.dart';
 import 'package:app/presentation/widgets/map_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 
-class GastronomicoDetailScreen extends StatelessWidget {
+class GastronomicoDetailScreen extends StatefulWidget {
   static const ROUTENAME = "GastronomicoDetail";
+
+  @override
+  _GastronomicoDetailScreenState createState() => _GastronomicoDetailScreenState();
+}
+
+class _GastronomicoDetailScreenState extends State<GastronomicoDetailScreen> {
   final TextStyle dataStyle = TextStyle(fontSize: 20);
-  
+  Gastronomico gastronomico;
+  File _image;
+  final picker = ImagePicker();
+  List<Favorito> favoritos = [];
+  FavoritosBloc _favoritosBloc;
+  bool esFavorito = false;
+  Favorito favorito;
+
   @override
   Widget build(BuildContext context) {
-    Gastronomico gastronomico = ModalRoute.of(context).settings.arguments;
-    FavoritosBloc _favoritosBloc = BlocProvider.of<FavoritosBloc>(context);
+    gastronomico = ModalRoute.of(context).settings.arguments;
+    _favoritosBloc = BlocProvider.of<FavoritosBloc>(context);
+
+    _favoritosBloc = BlocProvider.of<FavoritosBloc>(context);
+    if (_favoritosBloc.state is FavoritosLoadSuccess) {
+      var _state = _favoritosBloc.state as FavoritosLoadSuccess;
+      favoritos = _state.favoritos;
+      try {
+        favorito = favoritos.firstWhere((e) => !e.esAlojamiento && e.establecimientoId == gastronomico.id);
+        esFavorito = favorito != null;
+      } catch (_) {
+        print(_);
+      }
+      
+    }
+
     return Scaffold(
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 10),
         child: FloatingActionButton(
           onPressed: (){
-            _favoritosBloc.add(FavoritoCreate(establecimiento: gastronomico, esAlojamiento: false));
+            if (esFavorito) {
+                _favoritosBloc.add(FavoritoDelete(establecimiento: gastronomico, esAlojamiento: false ));
+              }
+              else {
+                _favoritosBloc.add(FavoritoCreate(
+                  establecimiento: gastronomico, esAlojamiento: false));
+              }
+              esFavorito = !esFavorito;
+              setState(() {
+                
+              });
+    
           },
-          child: Icon(Icons.favorite),
+          child: Icon(Icons.favorite, color: esFavorito ? Colors.red[300] : Colors.white ),
         )
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked, 
@@ -39,13 +81,13 @@ class GastronomicoDetailScreen extends StatelessWidget {
                 domicilio: gastronomico.domicilio
               ),
               SizedBox(height: 10.0),
+              esFavorito ? _crearSeccionRecuerdos() : Container()
             ],
           )
         ),
       )
     );
   }
-
 
   Widget _crearContenedorImagen(BuildContext context, String url) {
     return Container(
@@ -124,5 +166,112 @@ class GastronomicoDetailScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future getImageFromCamera() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+  }
+
+  Future getImageFromGallery() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
+  }
+Widget _crearNuevoRecuerdo() {
+    return Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey[700]),
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                height: 200,
+                width: 250,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: _image == null ? Center(child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("No se seleccionó ninguna imagen"),
+                  )) : Image.file(_image, fit: BoxFit.contain,)
+                )
+              ),
+              Column(
+                children: <Widget>[
+                  GestureDetector(
+                      onTap: getImageFromCamera,
+                      child: Icon(Icons.camera_alt, size: 50)),
+                  GestureDetector(
+                      onTap: getImageFromGallery,
+                      child: Icon(Icons.collections, size: 50)),
+                ],
+              )
+            ],
+          ),
+          _image != null ? 
+            GestureDetector(
+                onTap: () { 
+                  _favoritosBloc.add(FavoritoUpdate(establecimiento: gastronomico, esAlojamiento: false, image: _image.path, borrado: false)); 
+                  _image = null;
+                  setState(() {
+                    
+                  });
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 20),
+                  height: 50,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [const Color(0xFF18C5C1), const Color(0xFF5BC6D0)],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text("Guardar", style: TextStyle(color: Colors.white, fontSize: 20)),
+                  )
+                )
+              )
+            :
+            Container()
+      ]
+    );
+  }
+
+
+  Widget _mostrarRecuerdos() {
+    if (favorito.recuerdos?.length == 0) {
+      return Center(child: Text("Todavía no hay recuerdos de este establecimiento"));
+    } else {
+      return Column(
+        children: favorito.recuerdos.map((recuerdo) {
+        return Text("recuerdo");
+        }).toList()
+      );
+    }
+  }
+  Widget _crearSeccionRecuerdos() {
+    return Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text("Recuerdos",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            SizedBox(height: 20),
+            _crearNuevoRecuerdo(),
+            SizedBox(height: 20),
+            _mostrarRecuerdos()
+          ],
+        ));
   }
 }

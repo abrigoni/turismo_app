@@ -22,7 +22,7 @@ Aplicación desarrollada en Flutter para poder explorar alojamientos y estableci
 	- [X] Podrán visualizarse como mapa
 	- [X] Tanto en la lista como el mapa debe poder filtrarse por nombre
 	- [X] Se debe poder acceder a la ficha del alojamiento o establecimiento gastronómico
-	- [ ] Además, el usuario podrá agregar fotos tomadas con el celular o desde la galería a sus favoritos, a fin de agendarlas como recuerdos del lugar
+	- [X] Además, el usuario podrá agregar fotos tomadas con el celular o desde la galería a sus favoritos, a fin de agendarlas como recuerdos del lugar
 
 ## A presentar para final:
 * Notas: 

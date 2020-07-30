@@ -6,10 +6,13 @@ import 'package:app/data/repositories/gastronomico_repository.dart';
 import 'package:app/data/repositories/alojamiento_repository.dart';
 import 'package:app/presentation/screens/home_screen.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  BlocSupervisor.delegate = await HydratedBlocDelegate.build();
+  BlocSupervisor.delegate = await HydratedBlocDelegate.build(
+    storageDirectory: await getApplicationDocumentsDirectory()
+  );
   runApp(MyApp());
 }
 
