@@ -267,7 +267,7 @@ class _AlojamientoDetailScreenState extends State<AlojamientoDetailScreen> {
           _image != null ? 
             GestureDetector(
                 onTap: () { 
-                  _favoritosBloc.add(FavoritoUpdate(esAlojamiento: true, establecimiento: alojamiento.id, image: _image.path, borrado: false)); 
+                  _favoritosBloc.add(FavoritoUpdate(establecimiento: alojamiento, esAlojamiento: true, image: _image.path, borrado: false)); 
                   _image = null;
                   setState(() {
                     
