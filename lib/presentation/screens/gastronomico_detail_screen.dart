@@ -10,12 +10,12 @@ import 'package:app/data/models/gastronomico_model.dart';
 import 'package:app/presentation/widgets/map_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 class GastronomicoDetailScreen extends StatefulWidget {
   static const ROUTENAME = "GastronomicoDetail";
 
   @override
-  _GastronomicoDetailScreenState createState() => _GastronomicoDetailScreenState();
+  _GastronomicoDetailScreenState createState() =>
+      _GastronomicoDetailScreenState();
 }
 
 class _GastronomicoDetailScreenState extends State<GastronomicoDetailScreen> {
@@ -38,117 +38,117 @@ class _GastronomicoDetailScreenState extends State<GastronomicoDetailScreen> {
       var _state = _favoritosBloc.state as FavoritosLoadSuccess;
       favoritos = _state.favoritos;
       try {
-        favorito = favoritos.firstWhere((e) => !e.esAlojamiento && e.establecimientoId == gastronomico.id);
+        favorito = favoritos.firstWhere(
+            (e) => !e.esAlojamiento && e.establecimientoId == gastronomico.id);
         esFavorito = favorito != null;
       } catch (_) {
         print(_);
       }
-      
     }
 
     return Scaffold(
-      floatingActionButton: Container(
-        margin: EdgeInsets.only(bottom: 10),
-        child: GestureDetector(
-          onTap: (){
-            if (esFavorito) {
-                _favoritosBloc.add(FavoritoDelete(establecimiento: gastronomico, esAlojamiento: false ));
-              }
-              else {
-                _favoritosBloc.add(FavoritoCreate(
-                  establecimiento: gastronomico, esAlojamiento: false));
-              }
-              esFavorito = !esFavorito;
-              setState(() {
-                
-              });
-    
-          },
-          child: Icon( esFavorito ? Icons.favorite : Icons.favorite_border, color: esFavorito ? Colors.red[300] : Colors.black, size: 70),
-        )
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked, 
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
+        floatingActionButton: Container(
+            margin: EdgeInsets.only(bottom: 10),
+            child: GestureDetector(
+              onTap: () {
+                if (esFavorito) {
+                  _favoritosBloc.add(FavoritoDelete(
+                      establecimiento: gastronomico, esAlojamiento: false));
+                } else {
+                  _favoritosBloc.add(FavoritoCreate(
+                      establecimiento: gastronomico, esAlojamiento: false));
+                }
+                esFavorito = !esFavorito;
+                setState(() {});
+              },
+              child: Icon(esFavorito ? Icons.favorite : Icons.favorite_border,
+                  color: esFavorito ? Colors.red[300] : Colors.black, size: 70),
+            )),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        body: SafeArea(
+          child: SingleChildScrollView(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _crearContenedorImagen(context, gastronomico.foto),
               SizedBox(height: 10.0),
-              _crearDatos(context, gastronomico), 
+              _crearDatos(context, gastronomico),
               MapWidget(
-                id: gastronomico.id.toString(),
-                position: LatLng(gastronomico.lat, gastronomico.lng),
-                titulo: gastronomico.nombre,
-                domicilio: gastronomico.domicilio
-              ),
+                  id: gastronomico.id.toString(),
+                  position: LatLng(gastronomico.lat, gastronomico.lng),
+                  titulo: gastronomico.nombre,
+                  domicilio: gastronomico.domicilio),
               SizedBox(height: 10.0),
               esFavorito ? _crearSeccionRecuerdos() : Container()
             ],
-          )
-        ),
-      )
-    );
+          )),
+        ));
   }
 
   Widget _crearContenedorImagen(BuildContext context, String url) {
     return Container(
-      width: double.infinity, 
-      child: Stack(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(40.0), bottomRight: Radius.circular(40.0)),
-            child: FadeInImage(
-              placeholder: AssetImage("assets/img/loading.gif"),
-              image: NetworkImage(url)
+        width: double.infinity,
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40.0),
+                    bottomRight: Radius.circular(40.0)),
+                child: FadeInImage(
+                    placeholder: AssetImage("assets/img/loading.gif"),
+                    image: NetworkImage(url))),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 10, left: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF0AD5F),
+                      shape: BoxShape.circle
+                    ),
+                  child: IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.white),
+                      onPressed: () => Navigator.pop(context),
+                      iconSize: 45),
+                ),
+              ],
             )
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.arrow_back), 
-                onPressed: () => Navigator.pop(context),
-                iconSize: 45
-              )
-            ],
-          )
-        ],
-      )
-    );
+          ],
+        ));
   }
 
   Widget _crearDatos(BuildContext context, Gastronomico gastronomico) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(gastronomico.nombre, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)), 
-          SizedBox(height: 10.0),
-          _crearActividades(gastronomico.actividades),
-          SizedBox(height: 10.0),
-          _crearEspecialidades(gastronomico.especialidades),
-          SizedBox(height: 10.0),
-          Text(gastronomico.localidad["nombre"], style: dataStyle),
-          SizedBox(height: 10.0),
-        ],
-      )
-    );
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(gastronomico.nombre,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            SizedBox(height: 10.0),
+            _crearActividades(gastronomico.actividades),
+            SizedBox(height: 10.0),
+            _crearEspecialidades(gastronomico.especialidades),
+            SizedBox(height: 10.0),
+            Text(gastronomico.localidad["nombre"], style: dataStyle),
+            SizedBox(height: 10.0),
+          ],
+        ));
   }
 
   Widget _crearActividades(List<dynamic> actividades) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Actividades", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+        Text("Actividades",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         Wrap(
-          children: actividades.map<Widget>( (especialidad) {
-            return Chip(
-              label: Text(especialidad["actividad"]["nombre"]),
-            );
-          }).toList()
-        ),
+            children: actividades.map<Widget>((especialidad) {
+          return Chip(
+            label: Text(especialidad["actividad"]["nombre"]),
+          );
+        }).toList()),
       ],
     );
   }
@@ -157,14 +157,14 @@ class _GastronomicoDetailScreenState extends State<GastronomicoDetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Especialidades", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+        Text("Especialidades",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         Wrap(
-          children: especialidades.map<Widget>( (especialidad) {
-            return Chip(
-              label: Text(especialidad["especialidad"]["nombre"]),
-            );
-          }).toList()
-        ),
+            children: especialidades.map<Widget>((especialidad) {
+          return Chip(
+            label: Text(especialidad["especialidad"]["nombre"]),
+          );
+        }).toList()),
       ],
     );
   }
@@ -184,94 +184,100 @@ class _GastronomicoDetailScreenState extends State<GastronomicoDetailScreen> {
       _image = File(pickedFile.path);
     });
   }
-Widget _crearNuevoRecuerdo() {
-    return Column(
+
+  Widget _crearNuevoRecuerdo() {
+    return Column(children: <Widget>[
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[700]),
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                height: 200,
-                width: 250,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: _image == null ? Center(child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("No se seleccionó ninguna imagen"),
-                  )) : Image.file(_image, fit: BoxFit.contain,)
-                )
+          Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[700]),
+                borderRadius: BorderRadius.circular(20.0),
               ),
-              Column(
-                children: <Widget>[
-                  GestureDetector(
-                      onTap: getImageFromCamera,
-                      child: Icon(Icons.camera_alt, size: 50)),
-                  GestureDetector(
-                      onTap: getImageFromGallery,
-                      child: Icon(Icons.collections, size: 50)),
-                ],
-              )
+              height: 200,
+              width: 250,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: _image == null
+                      ? Center(
+                          child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("No se seleccionó ninguna imagen"),
+                        ))
+                      : Image.file(
+                          _image,
+                          fit: BoxFit.contain,
+                        ))),
+          Column(
+            children: <Widget>[
+              GestureDetector(
+                  onTap: getImageFromCamera,
+                  child: Icon(Icons.camera_alt, size: 50)),
+              GestureDetector(
+                  onTap: getImageFromGallery,
+                  child: Icon(Icons.collections, size: 50)),
             ],
-          ),
-          _image != null ? 
-            GestureDetector(
-                onTap: () { 
-                  _favoritosBloc.add(FavoritoUpdate(establecimiento: gastronomico, esAlojamiento: false, image: _image.path, borrado: false)); 
-                  _image = null;
-                  setState(() {
-                    
-                  });
-                },
-                child: Container(
+          )
+        ],
+      ),
+      _image != null
+          ? GestureDetector(
+              onTap: () {
+                _favoritosBloc.add(FavoritoUpdate(
+                    establecimiento: gastronomico,
+                    esAlojamiento: false,
+                    image: _image.path,
+                    borrado: false));
+                _image = null;
+                setState(() {});
+              },
+              child: Container(
                   margin: EdgeInsets.only(top: 20),
                   height: 50,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [const Color(0xFF18C5C1), const Color(0xFF5BC6D0)],
-                  ),
-                  borderRadius: BorderRadius.circular(20),
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        const Color(0xFF18C5C1),
+                        const Color(0xFF5BC6D0)
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   child: Center(
-                    child: Text("Guardar", style: TextStyle(color: Colors.white, fontSize: 20)),
-                  )
-                )
-              )
-            :
-            Container()
-      ]
-    );
+                    child: Text("Guardar",
+                        style: TextStyle(color: Colors.white, fontSize: 20)),
+                  )))
+          : Container()
+    ]);
   }
 
-
-    void deleteRecuerdo(String filePath, Favorito favorito) {
-      _favoritosBloc.add(FavoritoUpdate(
-                    establecimiento: gastronomico,
-                    esAlojamiento: false,
-                    image: filePath,
-                    borrado: true));
-      setState(() {
-      
-      });
-    } 
+  void deleteRecuerdo(String filePath, Favorito favorito) {
+    _favoritosBloc.add(FavoritoUpdate(
+        establecimiento: gastronomico,
+        esAlojamiento: false,
+        image: filePath,
+        borrado: true));
+    setState(() {});
+  }
 
   Widget _mostrarRecuerdos() {
     if (favorito.recuerdos?.length == 0) {
-      return Center(child: Text("Todavía no hay recuerdos de este establecimiento"));
+      return Center(
+          child: Text("Todavía no hay recuerdos de este establecimiento"));
     } else {
       return Wrap(
         direction: Axis.horizontal,
         children: favorito.recuerdos.map((e) {
-          return RecuerdoWidget(filePath: e, favorito: favorito, func: deleteRecuerdo);
+          return RecuerdoWidget(
+              filePath: e, favorito: favorito, func: deleteRecuerdo);
         }).toList(),
       );
     }
   }
+
   Widget _crearSeccionRecuerdos() {
     return Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),

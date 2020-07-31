@@ -136,11 +136,18 @@ class _AlojamientoDetailScreenState extends State<AlojamientoDetailScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: 10, left: 10),
+          decoration: BoxDecoration(
+          color: Color(0xFF4EAEFB),
+          shape: BoxShape.circle
+          ),
+        child:
         IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
           iconSize: 45,
-        ),
+        )),
       ],
     );
   }
