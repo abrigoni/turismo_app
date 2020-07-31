@@ -29,6 +29,7 @@ class _FiltrosGastronomicosScreenState extends State<FiltrosGastronomicosScreen>
     _gastronomicosBloc = BlocProvider.of<GastronomicosBloc>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFF0AD5F),
         title: Text("Filtrar Gastronomicos"),
         centerTitle: true,
         leading: IconButton(
