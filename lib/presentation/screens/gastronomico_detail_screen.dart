@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:app/BLoC/bloc.dart';
 import 'package:app/data/models/favorito_model.dart';
+import 'package:app/presentation/widgets/recuerdo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -248,14 +249,26 @@ Widget _crearNuevoRecuerdo() {
   }
 
 
+    void deleteRecuerdo(String filePath, Favorito favorito) {
+      _favoritosBloc.add(FavoritoUpdate(
+                    establecimiento: gastronomico,
+                    esAlojamiento: false,
+                    image: filePath,
+                    borrado: true));
+      setState(() {
+      
+      });
+    } 
+
   Widget _mostrarRecuerdos() {
     if (favorito.recuerdos?.length == 0) {
       return Center(child: Text("Todavía no hay recuerdos de este establecimiento"));
     } else {
-      return Column(
-        children: favorito.recuerdos.map((recuerdo) {
-        return Text("recuerdo");
-        }).toList()
+      return Wrap(
+        direction: Axis.horizontal,
+        children: favorito.recuerdos.map((e) {
+          return RecuerdoWidget(filePath: e, favorito: favorito, func: deleteRecuerdo);
+        }).toList(),
       );
     }
   }
