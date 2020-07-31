@@ -49,8 +49,8 @@ class _GastronomicoDetailScreenState extends State<GastronomicoDetailScreen> {
     return Scaffold(
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 10),
-        child: FloatingActionButton(
-          onPressed: (){
+        child: GestureDetector(
+          onTap: (){
             if (esFavorito) {
                 _favoritosBloc.add(FavoritoDelete(establecimiento: gastronomico, esAlojamiento: false ));
               }
@@ -64,7 +64,7 @@ class _GastronomicoDetailScreenState extends State<GastronomicoDetailScreen> {
               });
     
           },
-          child: Icon(Icons.favorite, color: esFavorito ? Colors.red[300] : Colors.white ),
+          child: Icon( esFavorito ? Icons.favorite : Icons.favorite_border, color: esFavorito ? Colors.red[300] : Colors.black, size: 70),
         )
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked, 

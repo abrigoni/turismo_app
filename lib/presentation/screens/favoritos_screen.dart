@@ -24,7 +24,7 @@ class FavoritosScreen extends StatelessWidget {
     GastronomicosBloc _gastronomicosBloc = BlocProvider.of<GastronomicosBloc>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFF4EAEFB),
+      backgroundColor: Colors.red[300],
         appBar: _crearAppBar(context),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +43,7 @@ class FavoritosScreen extends StatelessWidget {
 
   Widget _crearAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Color(0xFF4EAEFB),
+      backgroundColor: Colors.red[300],
       title: Text("Favoritos"),
       centerTitle: true,
       leading: IconButton(icon: Icon(Icons.map), onPressed: () async {

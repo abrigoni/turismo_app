@@ -15,6 +15,7 @@ class SearchBarWidget extends StatefulWidget {
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   
   String _busqueda = "";
+  var _controller = TextEditingController();
   TextStyle textStyle = TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0);
   AlojamientosBloc _alojamientosBloc;
   GastronomicosBloc _gastronomicosBloc;
@@ -26,12 +27,14 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0),
       child: TextField( 
+        controller: _controller,
         style: textStyle,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14.0),
           ),
           hintText: "Buscar",
+          prefixIcon: GestureDetector(child: Icon(Icons.clear, color: Colors.white), onTap: onClearTap),
           suffixIcon: GestureDetector(child: Icon(Icons.search, color: Colors.white), onTap: onSearchTap),
           hintStyle: textStyle
         ),
@@ -52,4 +55,18 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     }
   }
 
+  void onClearTap() {
+    _busqueda = "";
+    _controller.clear();
+    if (widget.blocType == 'alojamiento') 
+      widget.bloc.add(AlojamientosSearch(""));
+    else if (widget.blocType == 'gastronomico')
+      widget.bloc.add(GastronomicosSearch(""));
+    else {
+      var alojamientosState = _alojamientosBloc.state as AlojamientosLoadSuccess;
+      var gastronomicosState = _gastronomicosBloc.state as GastronomicosLoadSuccess;
+      widget.bloc.add(FavoritosSearch("", alojamientosState.alojamientos, gastronomicosState.gastronomicos));
+    }
+    setState((){});
+  }
 }
