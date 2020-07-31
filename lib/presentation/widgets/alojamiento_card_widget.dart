@@ -7,8 +7,9 @@ class AlojamientoCardWidget extends StatelessWidget {
 
   final Alojamiento alojamiento;
   final Function(BuildContext, Alojamiento) onTap;
+  final Function(BuildContext, Alojamiento) onLocationTap;
 
-  AlojamientoCardWidget({this.alojamiento, this.onTap});
+  AlojamientoCardWidget({this.alojamiento, this.onTap, this.onLocationTap});
 
 
   @override
@@ -26,7 +27,10 @@ class AlojamientoCardWidget extends StatelessWidget {
                     SizedBox(width:10.0),
                     _crearInfo(alojamiento.nombre, alojamiento.domicilio, alojamiento.categoriaId),
                     SizedBox(width:10.0),
-                    Icon(Icons.location_on, color: Colors.blue, size: 30),
+                    GestureDetector(
+                      onTap: () => onLocationTap(context, alojamiento),
+                      child: Icon(Icons.location_on, color: Colors.blue, size: 50)
+                    ),
                   ],
                 ),
                 Divider()

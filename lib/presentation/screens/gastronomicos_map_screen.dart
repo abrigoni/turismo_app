@@ -1,4 +1,5 @@
 import 'package:app/BLoC/bloc.dart';
+import 'package:app/presentation/screens/filtros_gastronomicos_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,12 +20,12 @@ class _GastronomicosMapScreenState extends State<GastronomicosMapScreen> {
 
   /* Map */
   GoogleMapController mapController;
-  final LatLng _center = const LatLng(-54.7999992,-68.3000031);
+  LatLng _center;
   final Map<String, Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
-    gastronomicos = ModalRoute.of(context).settings.arguments;
+    _center = ModalRoute.of(context).settings.arguments ?? LatLng(-54.7999992, -68.3000031);
     return Scaffold(
       appBar: _crearAppBar(context),
       body: BlocBuilder<GastronomicosBloc, GastronomicosState>(
@@ -38,6 +39,9 @@ class _GastronomicosMapScreenState extends State<GastronomicosMapScreen> {
             }
             gastronomicos = state.gastronomicos;
             return GoogleMap(
+              myLocationEnabled: true,
+              trafficEnabled: true,
+              myLocationButtonEnabled: true,
               onMapCreated: _onMapCreated,
               initialCameraPosition: CameraPosition(
                 target: _center,
@@ -57,7 +61,9 @@ class _GastronomicosMapScreenState extends State<GastronomicosMapScreen> {
         backgroundColor: Color(0xFFF0AD5F), 
         title: Text("Gastronomicos"),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.filter_list), onPressed: (){}),
+          IconButton(icon: Icon(Icons.filter_list), onPressed: (){
+            Navigator.pushNamed(  context, FiltrosGastronomicosScreen.ROUTENAME);
+            }),
         ],
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
@@ -72,14 +78,15 @@ class _GastronomicosMapScreenState extends State<GastronomicosMapScreen> {
         _markers.clear();
         for (final gastronomico in gastronomicos) {
           final marker = Marker(
-            markerId: MarkerId(gastronomico["id"].toString()),
-            position: LatLng(gastronomico["lat"], gastronomico["lng"]),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+            markerId: MarkerId(gastronomico.id.toString()),
+            position: LatLng(gastronomico.lat, gastronomico.lng),
             infoWindow: InfoWindow(
-              title: gastronomico["nombre"],
-              snippet: gastronomico["domicilio"],
+              title: gastronomico.nombre,
+              snippet: gastronomico.domicilio,
             ),
           );
-          _markers[gastronomico["id"].toString()] = marker;
+          _markers[gastronomico.id.toString()] = marker;
         }
       }
     );

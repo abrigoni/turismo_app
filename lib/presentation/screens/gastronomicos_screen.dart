@@ -7,6 +7,7 @@ import 'package:app/presentation/screens/filtros_gastronomicos_screen.dart';
 import 'package:app/presentation/screens/gastronomicos_map_screen.dart';
 import 'package:app/presentation/widgets/gastronomico_card_widget.dart';
 import 'package:app/presentation/widgets/searchbar_widget.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GastronomicosScreen extends StatefulWidget {
   static const String ROUTENAME = 'Gastronomicos';
@@ -98,7 +99,7 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
           itemCount: gastronomicos.length,
           itemBuilder: (BuildContext context, int index) {
             if (gastronomicos[index].visible)
-              return GastronomicoCardWidget(gastronomico: gastronomicos[index], onTap: _onCardTap);
+              return GastronomicoCardWidget(gastronomico: gastronomicos[index], onTap: _onCardTap, onLocationTap: _onLocationTap,);
             else
               return Container();
           },
@@ -110,5 +111,9 @@ class _GastronomicosScreenState extends State<GastronomicosScreen> {
   void _onCardTap(BuildContext context, Gastronomico gastronomico) {
     Navigator.pushNamed(context, GastronomicoDetailScreen.ROUTENAME,
         arguments: gastronomico);
+  }
+
+  void _onLocationTap(BuildContext context, Gastronomico gastronomico) {
+    Navigator.pushNamed(context, GastronomicosMapScreen.ROUTENAME, arguments: LatLng(gastronomico.lat, gastronomico.lng));
   }
 }

@@ -7,6 +7,7 @@ import 'package:app/presentation/screens/alojamientos_map_screen.dart';
 import 'package:app/presentation/screens/filtros_alojamientos_screen.dart';
 import 'package:app/presentation/widgets/alojamiento_card_widget.dart';
 import 'package:app/presentation/widgets/searchbar_widget.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class AlojamientosScreen extends StatelessWidget {
 
@@ -93,7 +94,7 @@ class AlojamientosScreen extends StatelessWidget {
                 itemCount: alojamientos.length,
                 itemBuilder: (BuildContext context, int index) {
                   if (alojamientos[index].visible)
-                    return AlojamientoCardWidget(alojamiento: alojamientos[index], onTap: _onCardTap);
+                    return AlojamientoCardWidget(alojamiento: alojamientos[index], onTap: _onCardTap, onLocationTap: _onLocationTap);
                   else 
                     return Container();
             }
@@ -104,6 +105,10 @@ class AlojamientosScreen extends StatelessWidget {
 
   void _onCardTap(BuildContext context, Alojamiento alojamiento) {
     Navigator.pushNamed(context, AlojamientoDetailScreen.ROUTENAME, arguments: alojamiento);
+  }
+
+  void _onLocationTap(BuildContext context, Alojamiento alojamiento) {
+    Navigator.pushNamed(context, AlojamientosMapScreen.ROUTENAME, arguments: LatLng(alojamiento.lat, alojamiento.lng));
   }
 
   void searchBlocEvent(String search) {

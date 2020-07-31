@@ -7,8 +7,9 @@ class GastronomicoCardWidget extends StatelessWidget {
 
   final Gastronomico gastronomico;
   final Function(BuildContext, Gastronomico) onTap;
+  final Function(BuildContext, Gastronomico) onLocationTap;
 
-  GastronomicoCardWidget({this.gastronomico, this.onTap});
+  GastronomicoCardWidget({this.gastronomico, this.onTap, this.onLocationTap});
 
 
   @override
@@ -26,7 +27,10 @@ class GastronomicoCardWidget extends StatelessWidget {
                     SizedBox(width:10.0),
                     _crearInfo(gastronomico.nombre, gastronomico.localidad["nombre"]),
                     SizedBox(width: 10.0),
-                    Icon(Icons.location_on, color: Colors.orange, size: 30),
+                    GestureDetector(
+                      onTap: () => onLocationTap(context, gastronomico),
+                      child: Icon(Icons.location_on, color: Colors.orange, size: 50)
+                    ),
                   ],
                 ),
                 Divider()

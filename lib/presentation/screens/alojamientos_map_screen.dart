@@ -1,3 +1,4 @@
+import 'package:app/presentation/screens/alojamiento_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,14 +16,16 @@ class AlojamientosMapScreen extends StatefulWidget {
 class _AlojamientosMapScreenState extends State<AlojamientosMapScreen> {
   GoogleMapController mapController;
 
-  final LatLng _center = const LatLng(-54.7999992, -68.3000031);
+  LatLng _center;
 
-  final Map<String, Marker> _markers = {};
+  Map<String, Marker> _markers = {};
 
   List<Alojamiento> alojamientos;
 
   @override
   Widget build(BuildContext context) {
+    _center = ModalRoute.of(context).settings.arguments ?? LatLng(-54.7999992, -68.3000031);
+
     return Scaffold(
         backgroundColor: Color(0xFF4EAEFB),
         appBar: _crearAppBar(context),
@@ -34,11 +37,6 @@ class _AlojamientosMapScreenState extends State<AlojamientosMapScreen> {
               );
             }
             if (state is AlojamientosLoadSuccess) {
-              if (state.alojamientos.isEmpty) {
-                return Center(
-                  child: Text('Alojamientos empty'),
-                );
-              }
               alojamientos = state.alojamientos;
               return _crearMapScreen(context);
             }
@@ -51,6 +49,10 @@ class _AlojamientosMapScreenState extends State<AlojamientosMapScreen> {
 
   Widget _crearMapScreen(BuildContext context) {
     return GoogleMap(
+      mapType: MapType.normal,
+      myLocationEnabled: true,
+      trafficEnabled: true,
+      myLocationButtonEnabled: true,
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(
         target: _center,
@@ -67,6 +69,7 @@ class _AlojamientosMapScreenState extends State<AlojamientosMapScreen> {
       for (final alojamiento in alojamientos) {
         if (alojamiento.visible) {
           final marker = Marker(
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
             markerId: MarkerId(alojamiento.id.toString()),
             position: LatLng(alojamiento.lat, alojamiento.lng),
             infoWindow: InfoWindow(
